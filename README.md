@@ -72,3 +72,8 @@ YSContext.Dispose();
 Soultion contains 2 projects:
 - yara-master - where you *can* update yara sources for a new version
 - YaraSharp - where you *can* modify sources in order to add / repair wrapper features
+
+## Other
+Build in vs 2017
+You can use or modify the sources however you want
+Special thanks to [kallanreed](https://github.com/kallanreed/libyara.NET)
