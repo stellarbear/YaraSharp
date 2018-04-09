@@ -6,14 +6,13 @@ namespace YaraSharp
 	{
 	private:
 		//	Проверка файлов
-		Dictionary<String^, List<String^>^>^ CheckYaraRules(List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables);
+		Dictionary<String^, List<String^>^>^ CheckYaraRules([Out] List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables);
 
 	public:
 		//	Компиляция правил
-		CRules^ CompileFromFiles(CCompiler^ Compiler, 
-								List<String^>^ FilePathList, 
-								Dictionary<String^, Object^>^ ExternalVariables,
-								[Out] Dictionary<String^, List<String^>^>^% CompilationErrors);
+		CRules^ CompileFromFiles(List<String^>^ FilePathList,
+								 Dictionary<String^, Object^>^ ExternalVariables,
+								 [Out] Dictionary<String^, List<String^>^>^% CompilationErrors);
 
 		//	Сканироварние 
 		List<CMatches^>^ ScanFile(String^ Path, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout);

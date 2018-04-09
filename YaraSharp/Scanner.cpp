@@ -10,10 +10,6 @@ namespace YaraSharp
 		ErrorUtility::ThrowOnError(yr_scanner_create((YR_RULES*)rules, &TestScanner));
 		Scanner = TestScanner;
 
-		ScanCallback = gcnew YaraScanCallback(this, &CScanner::HandleScannerCallback);
-		auto funcPtr = Marshal::GetFunctionPointerForDelegate(ScanCallback).ToPointer();
-		yr_scanner_set_callback(Scanner, static_cast<YR_CALLBACK_FUNC>(funcPtr), nullptr);
-
 		SetScannerExternals(ExternalVariables);
 	}
 	//	Деструктор

@@ -7,15 +7,14 @@ namespace YaraSharp
 
 	public ref class CScanner sealed
 	{
-	public:
-		YR_SCANNER * Scanner;
-		YaraScanCallback^ ScanCallback;
+		initonly YR_SCANNER * Scanner;
 
+	public:
 		CScanner(CRules^ rules, Dictionary<String^, Object^>^ ExternalVariables);
 		~CScanner();
 
+		int HandleScannerCallback(int Message, void* Data, void* Context);
 	private:
 		void SetScannerExternals(Dictionary<String^, Object^>^ ExternalVariables);
-		int HandleScannerCallback(int Message, void* Data, void* Context);
 	};
 }

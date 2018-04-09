@@ -6,6 +6,7 @@ namespace YaraSharp
 	CRules::operator YR_RULES*() { return Rules; }
 	CRules::CRules(YR_RULES* rules) : Rules(rules) { }
 	CRules::~CRules() { if (Rules) yr_rules_destroy(Rules); }
+	void CRules::Destroy() { delete this; }
 }
 //	CRule
 namespace YaraSharp

@@ -7,5 +7,6 @@ namespace YaraSharp
 	public:
 		CContext();
 		~CContext();
+		void Destroy();
 	};
 }

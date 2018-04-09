@@ -9,6 +9,7 @@ namespace YaraSharp
 	public:
 		CRules(YR_RULES* rules);
 		operator YR_RULES*();
+		void Destroy();
 		~CRules();
 	};
 
