@@ -15,13 +15,13 @@ namespace YaraSharp
 		~CCompiler();
 
 		CRules^ GetRules();
-		YR_COMPILER* GetCompiler();
 		List<String^>^ GetErrors();
 		int AddFile(String^ FilePath);
 		void AddFiles(List<String^>^ FilePathList);
 
 		void HandleCompilerCallback(int ErrorLevel, const char* Filename, int LineNumber, const char* Message, void* UserData);
 	private:
+		void SetCompilerCallback();
 		void SetCompilerExternals(Dictionary<String^, Object^>^ ExternalVariables);
 	};
 }

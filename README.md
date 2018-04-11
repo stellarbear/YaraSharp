@@ -1,6 +1,7 @@
 # YaraSharp
 C# wrapper around the Yara pattern matching library.
 
+Included signatures form [Loki](https://github.com/Neo23x0/signature-base/tree/master/yara).
 ## Usage
 ```C#
 //  All API calls happens here

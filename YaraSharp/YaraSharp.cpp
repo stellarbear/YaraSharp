@@ -48,7 +48,6 @@ namespace YaraSharp
 	}
 
 
-
 	//	Компиляция правил
 	CRules^ CYaraSharp::CompileFromFiles(List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables,
 		[Out] Dictionary<String^, List<String^>^>^% CompilationErrors)
@@ -58,14 +57,8 @@ namespace YaraSharp
 		//	Проверка правил на корректность
 		CompilationErrors = CheckYaraRules(FilePathList, ExternalVariables);
 
-		//	Callback секция
-		CCompiler^ Compiler = gcnew CCompiler(ExternalVariables);
-		YaraCompilerCallback^ CompilerCallback = gcnew YaraCompilerCallback(Compiler, &CCompiler::HandleCompilerCallback);
-		GCHandle CallbackHandle = GCHandle::Alloc(CompilerCallback);
-		YR_COMPILER_CALLBACK_FUNC CallbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(CompilerCallback)).ToPointer();
-		yr_compiler_set_callback(Compiler->GetCompiler(), CallbackPointer, NULL);
-
 		//	Компиляция правил
+		CCompiler^ Compiler = gcnew CCompiler(ExternalVariables);
 		Compiler->AddFiles(FilePathList);
 		CRules^ Result = Compiler->GetRules();
 		delete Compiler;
@@ -92,7 +85,7 @@ namespace YaraSharp
 		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
 		
 		//	Сканирование
-		ErrorUtility::ThrowOnError( yr_rules_scan_file(Rules, (marshal_as<std::string>(Path)).c_str(), 0, CallbackPointer, ResultsPointer, Timeout));
+		ErrorUtility::ThrowOnError(yr_rules_scan_file(Rules, (marshal_as<std::string>(Path)).c_str(), 0, CallbackPointer, ResultsPointer, Timeout));
 
 		return Results;
 	}

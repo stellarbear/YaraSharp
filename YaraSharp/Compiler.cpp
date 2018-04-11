@@ -13,10 +13,19 @@ namespace YaraSharp
 		Errors = gcnew List<String^>();
 		
 		SetCompilerExternals(ExternalVariables);
+		SetCompilerCallback();
 	}
 	//	Деструктор
 	CCompiler::~CCompiler() { if (Compiler) yr_compiler_destroy(Compiler); }
 
+
+	void CCompiler::SetCompilerCallback()
+	{
+		YaraCompilerCallback^ CompilerCallback = gcnew YaraCompilerCallback(this, &CCompiler::HandleCompilerCallback);
+		GCHandle CallbackHandle = GCHandle::Alloc(CompilerCallback);
+		YR_COMPILER_CALLBACK_FUNC CallbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(CompilerCallback)).ToPointer();
+		yr_compiler_set_callback(Compiler, CallbackPointer, NULL);
+	}
 	//	Добавление правил в коллекцию из файла
 	int CCompiler::AddFile(String^ FilePath)
 	{
@@ -55,11 +64,6 @@ namespace YaraSharp
 	List<String^>^ CCompiler::GetErrors()
 	{
 		return this->Errors;
-	}
-	//	Получение компилятора
-	YR_COMPILER* CCompiler::GetCompiler()
-	{
-		return this->Compiler;
 	}
 	//	Установка externals
 	void CCompiler::SetCompilerExternals(Dictionary<String^, Object^>^ ExternalVariables)
