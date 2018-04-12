@@ -72,8 +72,10 @@ namespace YaraSharp
 	{
 		CScanner^ FScanner = gcnew CScanner(Rules, ExternalVariables);
 
-		if (!File::Exists(Path))
-			throw gcnew FileNotFoundException(Path);
+		//	Проверка отключена, так как слишком длинные имена файлов игнорируются
+		//	Проверка на существование сканируемого файла на вас
+		//if (!File::Exists(Path))
+		//	throw gcnew FileNotFoundException(Path);
 
 		//	Callback секция
 		List<CMatches^>^ Results = gcnew List<CMatches^>();

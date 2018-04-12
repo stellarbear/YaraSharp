@@ -26,15 +26,16 @@ using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
 	using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(RuleFilenames, Externals, out Errors))
 	{
 		//  Some file to test yara rules
-		string Filename = "<some_file>";
+		//	Here comes long filenames
+		string Filename = "\\?\<some_file>";
 
 		//  Get matches
 		List<YaraSharp.CMatches> Matches = YSInstance.ScanFile(Filename, YSRules, 
 				new Dictionary<string, object>()
 				{
-					{ "filename", System.IO.Path.GetFileName(Filename) },
-					{ "filepath", System.IO.Path.GetFullPath(Filename) },
-					{ "extension", System.IO.Path.GetExtension(Filename) }
+					{ "filename", Alphaleonis.Win32.Filesystem.Path.GetFileName(Filename) },
+					{ "filepath", Alphaleonis.Win32.Filesystem.Path.GetFullPath(Filename) },
+					{ "extension", Alphaleonis.Win32.Filesystem.Path.GetExtension(Filename) }
 				}, 
 				0);
 
@@ -44,7 +45,8 @@ using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
 			//...
 		}
 	}
-	//  Log errors
+	//  Log errorsможно и так
+
 }
 ```
 For async scanning use **must** call destroy methods:
