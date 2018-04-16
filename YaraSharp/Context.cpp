@@ -3,9 +3,9 @@
 //	CContext
 namespace YaraSharp
 {
-	//	Конструктор
+	//	Constructor
 	CContext::CContext() { ErrorUtility::ThrowOnError(yr_initialize()); }
-	//	Деструктор
+	//	Destructor
 	CContext::~CContext() { ErrorUtility::ThrowOnError(yr_finalize()); }
 	void CContext::Destroy() { delete this; }
 }

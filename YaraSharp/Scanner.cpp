@@ -3,7 +3,7 @@
 //	CScanner
 namespace YaraSharp
 {
-	//	Конструктор
+	//	Constructor
 	CScanner::CScanner(CRules^ rules, Dictionary<String^, Object^>^ ExternalVariables)
 	{
 		YR_SCANNER* TestScanner;
@@ -12,10 +12,10 @@ namespace YaraSharp
 
 		SetScannerExternals(ExternalVariables);
 	}
-	//	Деструктор
+	//	Destructor
 	CScanner::~CScanner() { if (Scanner) yr_scanner_destroy(Scanner); }
 
-	//	Установка externals
+	//	Set externals
 	void CScanner::SetScannerExternals(Dictionary<String^, Object^>^ ExternalVariables)
 	{
 		if (ExternalVariables)
@@ -37,15 +37,15 @@ namespace YaraSharp
 				else if (VariableType == String::typeid)
 					ExternalError = yr_scanner_define_string_variable(Scanner, VariablePointer, CTX.marshal_as<const char*>((String^)ExternalVariable.Value));
 				else
-					throw gcnew NotSupportedException(String::Format("Неподдерживаемый тип external variable: '{0}'", VariableType->Name));
+					throw gcnew NotSupportedException(String::Format("Unsupported external variable: '{0}'", VariableType->Name));
 
 				if (ExternalError != ERROR_SUCCESS)
-					ErrorUtility::ThrowOnError("(Scanner) Не удалось инициализировать external variable");
+					ErrorUtility::ThrowOnError("(Scanner) Error during external variable intialization");
 			}
 		}
 	}
 	
-	//	Обработка ответа
+	//	Callback
 	int CScanner::HandleScannerCallback(int message, void* data, void* context)
 	{
 		if (message == CALLBACK_MSG_RULE_MATCHING)

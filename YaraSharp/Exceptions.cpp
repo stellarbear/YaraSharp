@@ -24,7 +24,7 @@ namespace YaraSharp
 
 	String^ ErrorUtility::NiceErrorCode(int error)
 	{
-		//	TODO: сделать нормальное описаниу
+		//	TODO: nice erros
 		switch (error)
 		{
 			case ERROR_INSUFICIENT_MEMORY: 

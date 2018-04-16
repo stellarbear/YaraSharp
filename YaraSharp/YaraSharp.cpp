@@ -3,13 +3,13 @@
 //	CMatches
 namespace YaraSharp
 {
-	//	Проверка правил
+	//	Check list of yara files
 	Dictionary<String^, List<String^>^>^ CYaraSharp::CheckYaraRules([Out] List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables)
 	{
 		Dictionary<String^, List<String^>^>^ CompilationErrors =
 			gcnew Dictionary<String^, List<String^>^>();
 
-		//	Последовательная проверка
+		//	Iterative check
 		for (int i = 0; i < FilePathList->Count; i++)
 		{
 			CCompiler^ TestCompiler = gcnew CCompiler(ExternalVariables);
@@ -23,7 +23,7 @@ namespace YaraSharp
 			delete TestCompiler;
 		}
 
-		//	Одновременная проверка
+		//	Simultaneous check
 		bool SuccessFlag = false;
 		while (!SuccessFlag)
 		{
@@ -37,7 +37,7 @@ namespace YaraSharp
 					FilePathList->Remove(FilePath);
 					SuccessFlag = false;
 
-					//	В случае ошибки необходимо создавать новый компилятор
+					//	New compiler must be created if we fail
 					delete TestCompiler;
 					break;
 				}
@@ -48,36 +48,35 @@ namespace YaraSharp
 	}
 
 
-	//	Компиляция правил
+	//	Rule compilation
 	CRules^ CYaraSharp::CompileFromFiles(List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables,
 		[Out] Dictionary<String^, List<String^>^>^% CompilationErrors)
 	{
-		//	TODO: добавить поддержку namespace
+		//	TODO: add namespace support
 
-		//	Проверка правил на корректность
+		//	First: check
 		CompilationErrors = CheckYaraRules(FilePathList, ExternalVariables);
 
-		//	Компиляция правил
+		//	Second: compile
 		CCompiler^ Compiler = gcnew CCompiler(ExternalVariables);
 		Compiler->AddFiles(FilePathList);
 		CRules^ Result = Compiler->GetRules();
 		delete Compiler;
 
-		//	Возвращаем скомпилированные правила
+		//	Return compiled rules
 		return Result;
 	}
 	
-	//	Сканирование файла
+	//	Scanning file
 	List<CMatches^>^ CYaraSharp::ScanFile(String^ Path, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
 	{
 		CScanner^ FScanner = gcnew CScanner(Rules, ExternalVariables);
 
-		//	Проверка отключена, так как слишком длинные имена файлов игнорируются
-		//	Проверка на существование сканируемого файла на вас
+		//	File existance check disabled. This cause crashes on long filenames (260+ symbols)
 		//if (!File::Exists(Path))
 		//	throw gcnew FileNotFoundException(Path);
 
-		//	Callback секция
+		//	Callback section
 		List<CMatches^>^ Results = gcnew List<CMatches^>();
 		GCHandle ResultsHandle = GCHandle::Alloc(Results);
 		void* ResultsPointer = GCHandle::ToIntPtr(ResultsHandle).ToPointer();
@@ -86,17 +85,17 @@ namespace YaraSharp
 		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
 		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
 		
-		//	Сканирование
+		//	Scanning
 		ErrorUtility::ThrowOnError(yr_rules_scan_file(Rules, (marshal_as<std::string>(Path)).c_str(), 0, CallbackPointer, ResultsPointer, Timeout));
 
 		return Results;
 	}
-	//	Сканирование процесса
+	//	Scanning process (not yet tested)
 	List<CMatches^>^ CYaraSharp::ScanProcess(int PID, CRules^ Rules, int Timeout, Dictionary<String^, Object^>^ ExternalVariables)
 	{
 		CScanner^ PScanner = gcnew CScanner(Rules, ExternalVariables);
 		
-		//	Callback секция
+		//	Callback section
 		List<CMatches^>^ Results = gcnew List<CMatches^>();
 		GCHandle ResultsHandle = GCHandle::Alloc(Results);
 		void* ResultsPointer = GCHandle::ToIntPtr(ResultsHandle).ToPointer();
@@ -105,12 +104,12 @@ namespace YaraSharp
 		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
 		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
 
-		//	Сканирование
+		//	Scanning
 		ErrorUtility::ThrowOnError(yr_rules_scan_proc(Rules, PID, 0, CallbackPointer, ResultsPointer, Timeout));
 
 		return Results;
 	}
-	//	Сканирование памяти
+	//	Scanning memory (not yet tested)
 	List<CMatches^>^ CYaraSharp::ScanMemory(array<uint8_t>^ Buffer, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
 	{
 		if (Buffer == nullptr || Buffer->Length == 0)
@@ -121,12 +120,12 @@ namespace YaraSharp
 			return ScanMemory(BufferPointer, Buffer->Length, Rules, ExternalVariables, Timeout);
 		}
 	}
-	//	Сканирование памяти
+	//	Scanning memory (not yet tested)
 	List<CMatches^>^ CYaraSharp::ScanMemory(uint8_t* Buffer, int Length, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
 	{
 		CScanner^ MScanner = gcnew CScanner(Rules, ExternalVariables);
 
-		//	Callback секция
+		//	Callback section
 		List<CMatches^>^ Results = gcnew List<CMatches^>();
 		GCHandle ResultsHandle = GCHandle::Alloc(Results);
 		void* ResultsPointer = GCHandle::ToIntPtr(ResultsHandle).ToPointer();
@@ -135,7 +134,7 @@ namespace YaraSharp
 		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
 		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
 
-		//	Сканирование
+		//	Scanning
 		ErrorUtility::ThrowOnError(yr_rules_scan_mem(Rules, Buffer, Length, 0, CallbackPointer, ResultsPointer, Timeout));
 
 		return Results;

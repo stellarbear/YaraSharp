@@ -14,10 +14,10 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyTitleAttribute(L"YaraSharp")];
 [assembly:AssemblyDescriptionAttribute(L"")];
 [assembly:AssemblyConfigurationAttribute(L"")];
-[assembly:AssemblyCompanyAttribute(L"")];
+[assembly:AssemblyCompanyAttribute(L"SB")];
 [assembly:AssemblyProductAttribute(L"YaraSharp")];
 [assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2018")];
-[assembly:AssemblyTrademarkAttribute(L"")];
+[assembly:AssemblyTrademarkAttribute(L"stellarbears")];
 [assembly:AssemblyCultureAttribute(L"")];
 
 //
@@ -31,7 +31,7 @@ using namespace System::Security::Permissions;
 // You can specify all the value or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly:AssemblyVersionAttribute("1.0.*")];
+[assembly:AssemblyVersionAttribute("1.0.0")];
 
 [assembly:ComVisible(false)];
 

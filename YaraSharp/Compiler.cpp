@@ -3,7 +3,7 @@
 //	CCompiler
 namespace YaraSharp
 {
-	//	Конструктор
+	//	Constructor
 	CCompiler::CCompiler(Dictionary<String^, Object^>^ ExternalVariables)
 	{
 		YR_COMPILER* TestCompiler;
@@ -15,7 +15,7 @@ namespace YaraSharp
 		SetCompilerExternals(ExternalVariables);
 		SetCompilerCallback();
 	}
-	//	Деструктор
+	//	Destructor
 	CCompiler::~CCompiler() { if (Compiler) yr_compiler_destroy(Compiler); }
 
 
@@ -26,7 +26,7 @@ namespace YaraSharp
 		YR_COMPILER_CALLBACK_FUNC CallbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(CompilerCallback)).ToPointer();
 		yr_compiler_set_callback(Compiler, CallbackPointer, NULL);
 	}
-	//	Добавление правил в коллекцию из файла
+	//	Add a single rule
 	int CCompiler::AddFile(String^ FilePath)
 	{
 		FILE* File;
@@ -44,13 +44,13 @@ namespace YaraSharp
 
 		return errors;
 	}
-	//	Добавление нескольких файлов
+	//	Add several files
 	void CCompiler::AddFiles(List<String^>^ FilePathList)
 	{
 		for each (auto FilePath in FilePathList)
 			AddFile(FilePath);
 	}
-	//	Получение списка правил
+	//	Get rule list
 	CRules^ CCompiler::GetRules()
 	{
 		YR_RULES* Rules;
@@ -60,12 +60,12 @@ namespace YaraSharp
 
 		return gcnew CRules(Rules);
 	}
-	//	Получение списка ошибок
+	//	Get error list
 	List<String^>^ CCompiler::GetErrors()
 	{
 		return this->Errors;
 	}
-	//	Установка externals
+	//	Set externals
 	void CCompiler::SetCompilerExternals(Dictionary<String^, Object^>^ ExternalVariables)
 	{
 		if (ExternalVariables)
@@ -87,21 +87,21 @@ namespace YaraSharp
 				else if (VariableType == String::typeid)
 					ExternalError = yr_compiler_define_string_variable(Compiler, VariablePointer, CTX.marshal_as<const char*>((String^)ExternalVariable.Value));
 				else
-					throw gcnew NotSupportedException(String::Format("Неподдерживаемый тип external variable: '{0}'", VariableType->Name));
+					throw gcnew NotSupportedException(String::Format("Unsupported external variable: '{0}'", VariableType->Name));
 
 				if (ExternalError != ERROR_SUCCESS)
-					ErrorUtility::ThrowOnError("(Compiler) Не удалось инициализировать external variable");
+					ErrorUtility::ThrowOnError("(Compiler) Error during external variable intialization");
 			}
 		}
 	}
 
-	//	Обработка ответа
+	//	Callback
 	void CCompiler::HandleCompilerCallback(int ErrorLevel, const char* Filename, int LineNumber, const char* Message, void* UserData)
 	{
 		UNREFERENCED_PARAMETER(ErrorLevel);
 		UNREFERENCED_PARAMETER(UserData);
 
-		auto msg = String::Format("{0} в строке {1} в файле: {2}",
+		auto msg = String::Format("{0} in line {1} in file: {2}",
 			marshal_as<String^>(Message), LineNumber,
 			Filename ? marshal_as<String^>(Filename) : "[none]");
 

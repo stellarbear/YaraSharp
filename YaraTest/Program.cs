@@ -32,7 +32,7 @@ namespace YaraTest
                 using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\signatures"), "*.yar", SearchOption.AllDirectories).ToList(), Externals, out Errors))
                 {
                     //  Some file to test yara rules
-                    string Filename = @"\\?\<Filename>";
+                    string Filename = @"\\?\D:\test\MW vol 5.0.rar";
 
                     //  Get matches
                     List<YaraSharp.CMatches> Matches = YSInstance.ScanFile(Filename, YSRules,

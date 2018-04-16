@@ -74,7 +74,7 @@ namespace YaraSharp
 				break;
 			}
 
-			//	Отсеиваем дубликаты
+			//	Distinct
 			if (!Result->ContainsKey(MetaID))
 				Result->Add(MetaID, MetaValue);
 		}

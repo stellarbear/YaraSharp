@@ -45,8 +45,7 @@ using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
 			//...
 		}
 	}
-	//  Log errorsможно и так
-
+	//  Log errors
 }
 ```
 For async scanning use **must** call destroy methods:
