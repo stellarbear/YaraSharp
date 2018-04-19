@@ -1,7 +1,7 @@
 # YaraSharp
-C# wrapper around the Yara pattern matching library.
+C# wrapper around the [Yara pattern matching library](https://github.com/VirusTotal/yara).
 
-Included signatures form [Loki](https://github.com/Neo23x0/signature-base/tree/master/yara).
+Use signatures form [Loki](https://github.com/Neo23x0/signature-base/tree/master/yara).
 ## Usage
 ```C#
 //  All API calls happens here
@@ -76,6 +76,8 @@ Soultion contains 2 projects:
 
 ## Other
 Build in vs 2017
+
+Compiled with yara 3.7.0
 
 You can use or modify the sources however you want
 

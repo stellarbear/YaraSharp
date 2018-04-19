@@ -18,15 +18,7 @@ namespace YaraSharp
 	//	Destructor
 	CCompiler::~CCompiler() { if (Compiler) yr_compiler_destroy(Compiler); }
 
-
-	void CCompiler::SetCompilerCallback()
-	{
-		YaraCompilerCallback^ CompilerCallback = gcnew YaraCompilerCallback(this, &CCompiler::HandleCompilerCallback);
-		GCHandle CallbackHandle = GCHandle::Alloc(CompilerCallback);
-		YR_COMPILER_CALLBACK_FUNC CallbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(CompilerCallback)).ToPointer();
-		yr_compiler_set_callback(Compiler, CallbackPointer, NULL);
-	}
-	//	Add a single rule
+	//	Rule region
 	int CCompiler::AddFile(String^ FilePath)
 	{
 		FILE* File;
@@ -44,13 +36,11 @@ namespace YaraSharp
 
 		return errors;
 	}
-	//	Add several files
 	void CCompiler::AddFiles(List<String^>^ FilePathList)
 	{
 		for each (auto FilePath in FilePathList)
 			AddFile(FilePath);
 	}
-	//	Get rule list
 	CRules^ CCompiler::GetRules()
 	{
 		YR_RULES* Rules;
@@ -60,11 +50,11 @@ namespace YaraSharp
 
 		return gcnew CRules(Rules);
 	}
-	//	Get error list
 	List<String^>^ CCompiler::GetErrors()
 	{
 		return this->Errors;
 	}
+
 	//	Set externals
 	void CCompiler::SetCompilerExternals(Dictionary<String^, Object^>^ ExternalVariables)
 	{
@@ -96,6 +86,13 @@ namespace YaraSharp
 	}
 
 	//	Callback
+	void CCompiler::SetCompilerCallback()
+	{
+		YaraCompilerCallback^ CompilerCallback = gcnew YaraCompilerCallback(this, &CCompiler::HandleCompilerCallback);
+		GCHandle CallbackHandle = GCHandle::Alloc(CompilerCallback);
+		YR_COMPILER_CALLBACK_FUNC CallbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(CompilerCallback)).ToPointer();
+		yr_compiler_set_callback(Compiler, CallbackPointer, NULL);
+	}
 	void CCompiler::HandleCompilerCallback(int ErrorLevel, const char* Filename, int LineNumber, const char* Message, void* UserData)
 	{
 		UNREFERENCED_PARAMETER(ErrorLevel);

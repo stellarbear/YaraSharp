@@ -46,8 +46,7 @@ namespace YaraSharp
 
 		return CompilationErrors;
 	}
-
-
+	
 	//	Rule compilation
 	CRules^ CYaraSharp::CompileFromFiles(List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables,
 		[Out] Dictionary<String^, List<String^>^>^% CompilationErrors)
@@ -66,50 +65,38 @@ namespace YaraSharp
 		//	Return compiled rules
 		return Result;
 	}
-	
-	//	Scanning file
+
+	//	Scanning region
 	List<CMatches^>^ CYaraSharp::ScanFile(String^ Path, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
 	{
 		CScanner^ FScanner = gcnew CScanner(Rules, ExternalVariables);
 
-		//	File existance check disabled. This cause crashes on long filenames (260+ symbols)
-		//if (!File::Exists(Path))
-		//	throw gcnew FileNotFoundException(Path);
-
-		//	Callback section
-		List<CMatches^>^ Results = gcnew List<CMatches^>();
-		GCHandle ResultsHandle = GCHandle::Alloc(Results);
-		void* ResultsPointer = GCHandle::ToIntPtr(ResultsHandle).ToPointer();
-
-		YaraScanCallback^ ScannerCallback = gcnew YaraScanCallback(FScanner, &CScanner::HandleScannerCallback);
-		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
-		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
-		
-		//	Scanning
-		ErrorUtility::ThrowOnError(yr_rules_scan_file(Rules, (marshal_as<std::string>(Path)).c_str(), 0, CallbackPointer, ResultsPointer, Timeout));
+		List<CMatches^>^ Results = FScanner->ScanFile(Path);
+		delete FScanner;
 
 		return Results;
 	}
-	//	Scanning process (not yet tested)
-	List<CMatches^>^ CYaraSharp::ScanProcess(int PID, CRules^ Rules, int Timeout, Dictionary<String^, Object^>^ ExternalVariables)
+	//	(not yet tested)
+	List<CMatches^>^ CYaraSharp::ScanProcess(int PID, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
 	{
 		CScanner^ PScanner = gcnew CScanner(Rules, ExternalVariables);
-		
-		//	Callback section
-		List<CMatches^>^ Results = gcnew List<CMatches^>();
-		GCHandle ResultsHandle = GCHandle::Alloc(Results);
-		void* ResultsPointer = GCHandle::ToIntPtr(ResultsHandle).ToPointer();
 
-		YaraScanCallback^ ScannerCallback = gcnew YaraScanCallback(PScanner, &CScanner::HandleScannerCallback);
-		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
-		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
-
-		//	Scanning
-		ErrorUtility::ThrowOnError(yr_rules_scan_proc(Rules, PID, 0, CallbackPointer, ResultsPointer, Timeout));
+		List<CMatches^>^ Results = PScanner->ScanProcess(PID);
+		delete PScanner;
 
 		return Results;
 	}
-	//	Scanning memory (not yet tested)
+	//	(not yet tested)
+	List<CMatches^>^ CYaraSharp::ScanMemory(uint8_t* Buffer, int Length, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
+	{
+		CScanner^ MScanner = gcnew CScanner(Rules, ExternalVariables);
+
+		List<CMatches^>^ Results = MScanner->ScanMemory(Buffer, Length);
+		delete MScanner;
+
+		return Results;
+	}
+	//	(not yet tested)
 	List<CMatches^>^ CYaraSharp::ScanMemory(array<uint8_t>^ Buffer, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
 	{
 		if (Buffer == nullptr || Buffer->Length == 0)
@@ -119,24 +106,5 @@ namespace YaraSharp
 			pin_ptr<uint8_t> BufferPointer = &Buffer[0];
 			return ScanMemory(BufferPointer, Buffer->Length, Rules, ExternalVariables, Timeout);
 		}
-	}
-	//	Scanning memory (not yet tested)
-	List<CMatches^>^ CYaraSharp::ScanMemory(uint8_t* Buffer, int Length, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout)
-	{
-		CScanner^ MScanner = gcnew CScanner(Rules, ExternalVariables);
-
-		//	Callback section
-		List<CMatches^>^ Results = gcnew List<CMatches^>();
-		GCHandle ResultsHandle = GCHandle::Alloc(Results);
-		void* ResultsPointer = GCHandle::ToIntPtr(ResultsHandle).ToPointer();
-
-		YaraScanCallback^ ScannerCallback = gcnew YaraScanCallback(MScanner, &CScanner::HandleScannerCallback);
-		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
-		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
-
-		//	Scanning
-		ErrorUtility::ThrowOnError(yr_rules_scan_mem(Rules, Buffer, Length, 0, CallbackPointer, ResultsPointer, Timeout));
-
-		return Results;
 	}
 }

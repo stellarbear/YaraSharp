@@ -13,7 +13,7 @@ namespace YaraSharp
 								 [Out] Dictionary<String^, List<String^>^>^% CompilationErrors);
 
 		List<CMatches^>^ ScanFile(String^ Path, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout);
-		List<CMatches^>^ ScanProcess(int PID, CRules^ Rules, int Timeout, Dictionary<String^, Object^>^ ExternalVariables);
+		List<CMatches^>^ ScanProcess(int PID, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout);
 		List<CMatches^>^ ScanMemory(array<uint8_t>^ Buffer, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout);
 		List<CMatches^>^ ScanMemory(uint8_t* Buffer, int Length, CRules^ Rules, Dictionary<String^, Object^>^ ExternalVariables, int Timeout);
 	};

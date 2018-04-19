@@ -10,10 +10,33 @@ namespace YaraSharp
 		ErrorUtility::ThrowOnError(yr_scanner_create((YR_RULES*)rules, &TestScanner));
 		Scanner = TestScanner;
 
+		Matches = gcnew List<CMatches^>();
+
+		//	TODO: add timeout support
+		
 		SetScannerExternals(ExternalVariables);
+		SetScannerCallback();
 	}
 	//	Destructor
 	CScanner::~CScanner() { if (Scanner) yr_scanner_destroy(Scanner); }
+	
+	//	Scan region
+	List<CMatches^>^ CScanner::ScanProcess(int PID)
+	{
+		ErrorUtility::ThrowOnError(yr_scanner_scan_proc(Scanner, PID));
+		return Matches;
+	}
+	List<CMatches^>^ CScanner::ScanFile(String^ Path)
+	{
+		ErrorUtility::ThrowOnError(yr_scanner_scan_file(Scanner, 
+									(marshal_as<std::string>(Path)).c_str()));
+		return Matches;
+	}
+	List<CMatches^>^ CScanner::ScanMemory(uint8_t* Buffer, int Length)
+	{
+		ErrorUtility::ThrowOnError(yr_scanner_scan_mem(Scanner, Buffer, Length));
+		return Matches;
+	}
 
 	//	Set externals
 	void CScanner::SetScannerExternals(Dictionary<String^, Object^>^ ExternalVariables)
@@ -46,15 +69,17 @@ namespace YaraSharp
 	}
 	
 	//	Callback
+	void CScanner::SetScannerCallback()
+	{
+		YaraScanCallback^ ScannerCallback = gcnew YaraScanCallback(this, &CScanner::HandleScannerCallback);
+		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
+		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
+		yr_scanner_set_callback(Scanner, CallbackPointer, NULL);
+	}
 	int CScanner::HandleScannerCallback(int message, void* data, void* context)
 	{
 		if (message == CALLBACK_MSG_RULE_MATCHING)
-		{
-			auto resultsHandle = GCHandle::FromIntPtr(IntPtr(context));
-			auto results = (List<CMatches^>^)resultsHandle.Target;
-
-			results->Add(gcnew CMatches((YR_RULE*)data));
-		}
+			Matches->Add(gcnew CMatches((YR_RULE*)data));
 
 		return CALLBACK_CONTINUE;
 	}

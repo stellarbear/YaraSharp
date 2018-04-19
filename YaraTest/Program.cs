@@ -11,7 +11,7 @@ namespace YaraTest
         static void Main(string[] args)
         {
             //  All API calls happens here
-            YaraSharp.CYaraSharp YSInstance = new CYaraSharp();
+            YaraSharp.CYaraSharp YSInstance = new CYaraSharp(); 
 
             //  Declare external variables (could be null)
             Dictionary<string, object> Externals = new Dictionary<string, object>()
@@ -32,7 +32,7 @@ namespace YaraTest
                 using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\signatures"), "*.yar", SearchOption.AllDirectories).ToList(), Externals, out Errors))
                 {
                     //  Some file to test yara rules
-                    string Filename = @"\\?\D:\test\MW vol 5.0.rar";
+                    string Filename = @"\\?\D:\_\Magic.apt";
 
                     //  Get matches
                     List<YaraSharp.CMatches> Matches = YSInstance.ScanFile(Filename, YSRules,
