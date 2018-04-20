@@ -21,9 +21,7 @@ namespace YaraSharp
 		property String^ Identifier;
 		property List<String^>^ Tags;
 		property Dictionary<String^, Object^>^ Meta;
-		//	It's some kind of useless here
-		//	Match has already a section for this
-		//  property List<String^>^ Strings;
+		property List<String^>^ Strings;
 
 		CRule();
 		CRule(YR_RULE* Rule);

@@ -16,7 +16,7 @@ namespace YaraSharp
 		Namespace = nullptr;
 		Identifier = nullptr;
 		Tags = gcnew List<String^>();
-		//	Strings = gcnew List<String^>();
+		Strings = gcnew List<String^>();
 		Meta = gcnew Dictionary<String^, Object^>();
 	}
 	CRule::CRule(YR_RULE* Rule)
@@ -24,7 +24,7 @@ namespace YaraSharp
 		Namespace = nullptr;
 		Tags = CRule::GetRuleTags(Rule);
 		Meta = CRule::GetRuleMeta(Rule);
-		//	Strings = CRule::GetRuleStrings(Rule);
+		Strings = CRule::GetRuleStrings(Rule);
 		Identifier = gcnew String(Rule->identifier);
 	}
 

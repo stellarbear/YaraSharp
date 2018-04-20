@@ -1,7 +1,7 @@
 # YaraSharp
 C# wrapper around the [Yara pattern matching library](https://github.com/VirusTotal/yara).
 
-Use signatures form [Loki](https://github.com/Neo23x0/signature-base/tree/master/yara).
+Use signatures form [Loki](https://github.com/Neo23x0/signature-base/tree/master/yara) or [Yara](https://github.com/Yara-Rules/rules).
 ## Usage
 ```C#
 //  All API calls happens here
@@ -67,7 +67,7 @@ YSContext.Destroy();
 * Metadata supported
 * Externals supported
 * Async scanning supported
-* Modules not supported
+* It seems (through debug sessions) that modules are supported, but i haven't had cases that certanly used them. So this question is opened
 
 ## Note
 Soultion contains 2 projects:
