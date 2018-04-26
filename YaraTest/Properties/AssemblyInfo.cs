@@ -8,10 +8,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("YaraTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SB")]
+[assembly: AssemblyCompany("sb")]
 [assembly: AssemblyProduct("YaraTest")]
 [assembly: AssemblyCopyright("© stellarbears")]
-[assembly: AssemblyTrademark("SB")]
+[assembly: AssemblyTrademark("sb")]
 [assembly: AssemblyCulture("")]
 
 // Установка значения False для параметра ComVisible делает типы в этой сборке невидимыми
