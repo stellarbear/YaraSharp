@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Collections.Generic;
+
 using YaraSharp;
 
 namespace YaraTest
@@ -12,9 +11,12 @@ namespace YaraTest
     {
         static void Main(string[] args)
         {
-            //  All API calls happens here
-            YaraSharp.CYaraSharp YSInstance = new CYaraSharp(); 
+            //  Get Version
+            Version DllVersion = CYaraSharp.GetVersion();
 
+            //  All API calls happens here
+            YaraSharp.CYaraSharp YSInstance = new CYaraSharp();
+            
             //  Declare external variables (could be null)
             Dictionary<string, object> Externals = new Dictionary<string, object>()
             {
