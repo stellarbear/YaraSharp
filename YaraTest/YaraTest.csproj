@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="YaraSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Build\Release\x86\YaraSharp.dll</HintPath>
+      <HintPath>..\Build\Debug\x86\YaraSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

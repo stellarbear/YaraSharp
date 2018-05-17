@@ -8,9 +8,8 @@
 #include <msclr\lock.h>
 
 using namespace System;
-using namespace System::IO;
-using namespace System::Text;
 using namespace msclr::interop;
+using namespace System::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 

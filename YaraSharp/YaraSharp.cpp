@@ -107,4 +107,9 @@ namespace YaraSharp
 			return ScanMemory(BufferPointer, Buffer->Length, Rules, ExternalVariables, Timeout);
 		}
 	}
+
+	Version^ CYaraSharp::GetVersion()
+	{
+		return Assembly::GetExecutingAssembly()->GetName()->Version;
+	}
 }

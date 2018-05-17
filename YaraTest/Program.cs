@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using YaraSharp;
 
 namespace YaraTest
@@ -23,7 +25,7 @@ namespace YaraTest
 
             //  Errors occured during rule compilation: ignored_file : List<reasons>
             Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
-
+            
             //  Context is where yara is initialized
             //  From yr_initialize() to yr_finalize()
             using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
