@@ -77,7 +77,9 @@ Soultion contains 2 projects:
 ## Other
 Build in vs 2017
 
-Compiled with yara 3.7.0
+Compiled with yara 3.8.1
+
+Yara patched to support unicode paths
 
 You can use or modify the sources however you want
 
