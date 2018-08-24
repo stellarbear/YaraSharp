@@ -55,11 +55,21 @@ typedef struct _YR_STOPWATCH
 
 } YR_STOPWATCH;
 
-#else
+#elif defined(HAVE_CLOCK_GETTIME)
 
 typedef struct _YR_STOPWATCH
 {
   struct timespec ts_start;
+
+} YR_STOPWATCH;
+
+#else
+
+#include <sys/time.h>
+
+typedef struct _YR_STOPWATCH
+{
+  struct timeval tv_start;
 
 } YR_STOPWATCH;
 
@@ -71,8 +81,7 @@ void yr_stopwatch_start(
     YR_STOPWATCH* stopwatch);
 
 // yr_stopwatch_elapsed_us returns the number of microseconds elapsed
-// since the last call to yr_stopwatch_start or since the last time that
-// yr_stopwatch_elapsed_us was called with restart set to TRUE.
+// since the last call to yr_stopwatch_start.
 uint64_t yr_stopwatch_elapsed_us(
     YR_STOPWATCH* stopwatch);
 

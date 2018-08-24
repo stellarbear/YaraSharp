@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>YaraSharp</id>
+    <version>1.2.0</version>
+    <title>YaraSharp</title>
+    <authors>stellarbears</authors>
+    <owners>stellarbears</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/stellarbear/YaraSharp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/stellarbear/YaraSharp</projectUrl>
+    <iconUrl>https://github.com/stellarbear/YaraSharp/blob/master/YaraSharp.png?raw=true</iconUrl>
+    <description>C# wrapper around the Yara pattern matching library</description>
+    <summary></summary>
+    <copyright>stellarbears</copyright>
+    <tags>yara yara-scanner wrapper-api wrapper-library yara-forensics wrapper libyara async-scanning net csharp</tags>
+  </metadata>
+  <files>
+    <file src="Release\**\YaraSharp.dll" target="build/net" />
+    <file src="Release\**\YaraSharp.props" target="build/net" />
+</files>
+</package>

@@ -62,7 +62,7 @@ typedef struct _YR_MAPPED_FILE
 
 
 YR_API int yr_filemap_map(
-    const char* file_path,
+    const wchar_t* file_path,
     YR_MAPPED_FILE* pmapped_file);
 
 
@@ -74,7 +74,7 @@ YR_API int yr_filemap_map_fd(
 
 
 YR_API int yr_filemap_map_ex(
-    const char* file_path,
+    const wchar_t* file_path,
     off_t offset,
     size_t size,
     YR_MAPPED_FILE* pmapped_file);

@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ctype.h>
 
+#include <yara/utils.h>
 #include <yara/types.h>
 #include <yara/arena.h>
 #include <yara/sizedstr.h>

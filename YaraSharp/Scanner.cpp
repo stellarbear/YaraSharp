@@ -26,10 +26,12 @@ namespace YaraSharp
 		ErrorUtility::ThrowOnError(yr_scanner_scan_proc(Scanner, PID));
 		return Matches;
 	}
+
+
 	List<CMatches^>^ CScanner::ScanFile(String^ Path)
 	{
 		ErrorUtility::ThrowOnError(yr_scanner_scan_file(Scanner, 
-									(marshal_as<std::string>(Path)).c_str()));
+									(marshal_as<std::wstring>(Path)).c_str()));
 		return Matches;
 	}
 	List<CMatches^>^ CScanner::ScanMemory(uint8_t* Buffer, int Length)

@@ -99,7 +99,7 @@ YR_API int yr_scanner_scan_mem(
 
 YR_API int yr_scanner_scan_file(
     YR_SCANNER* scanner,
-    const char* filename);
+    const wchar_t* filename);
 
 
 YR_API int yr_scanner_scan_fd(

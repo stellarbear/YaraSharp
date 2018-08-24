@@ -33,10 +33,10 @@ namespace YaraTest
             using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
             {
                 //	Compiling rules
-                using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\signatures"), "*.yar", SearchOption.AllDirectories).ToList(), Externals, out Errors))
+                using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(Directory.GetFiles(@"C:\Users\root\source\repos\aptscan-sources\APTScan\Build\Debug\AnyCPU\signatures\yara", "*.yar", SearchOption.AllDirectories).ToList(), Externals, out Errors))
                 {
                     //  Some file to test yara rules
-                    string Filename = @"\\?\<filepath>";
+                    string Filename = @"\\?\D:\Test\DWS.pdf";
 
                     //  Get matches
                     List<YaraSharp.CMatches> Matches = YSInstance.ScanFile(Filename, YSRules,

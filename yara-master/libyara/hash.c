@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assert.h>
 #include <string.h>
 
+#include <yara/utils.h>
 #include <yara/integers.h>
 #include <yara/hash.h>
 #include <yara/mem.h>
@@ -97,7 +98,8 @@ uint32_t yr_hash(
   uint32_t result = seed;
   size_t i;
 
-  assert(len > 0);
+  if (len == 0)
+    return result;
 
   for (i = len - 1; i > 0; i--)
   {
@@ -251,7 +253,7 @@ YR_API void* yr_hash_table_lookup_raw_key(
     size_t key_length,
     const char* ns)
 {
-  return _yr_hash_table_lookup(table, key, key_length, ns, FALSE);
+  return _yr_hash_table_lookup(table, key, key_length, ns, false);
 }
 
 
@@ -261,7 +263,7 @@ YR_API void* yr_hash_table_remove_raw_key(
     size_t key_length,
     const char* ns)
 {
-  return _yr_hash_table_lookup(table, key, key_length, ns, TRUE);
+  return _yr_hash_table_lookup(table, key, key_length, ns, true);
 }
 
 

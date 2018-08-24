@@ -81,7 +81,7 @@ YR_API int yr_rules_scan_mem(
 
 YR_API int yr_rules_scan_file(
     YR_RULES* rules,
-    const char* filename,
+    const wchar_t* filename,
     int flags,
     YR_CALLBACK_FUNC callback,
     void* user_data,
@@ -156,6 +156,11 @@ YR_API int yr_rules_define_string_variable(
 
 YR_API void yr_rules_print_profiling_info(
     YR_RULES* rules);
+
+
+YR_API int yr_rules_get_stats(
+    YR_RULES* rules,
+    YR_RULES_STATS *stats);
 
 
 YR_API void yr_rule_disable(

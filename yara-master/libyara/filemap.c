@@ -59,7 +59,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
 YR_API int yr_filemap_map(
-    const char* file_path,
+    const wchar_t* file_path,
     YR_MAPPED_FILE* pmapped_file)
 {
   return yr_filemap_map_ex(file_path, 0, 0, pmapped_file);
@@ -261,7 +261,7 @@ YR_API int yr_filemap_map_fd(
 #if defined(_WIN32) || defined(__CYGWIN__)
 
 YR_API int yr_filemap_map_ex(
-    const char* file_path,
+    const wchar_t* file_path,
     off_t offset,
     size_t size,
     YR_MAPPED_FILE* pmapped_file)
@@ -272,7 +272,7 @@ YR_API int yr_filemap_map_ex(
   if (file_path == NULL)
     return ERROR_INVALID_ARGUMENT;
 
-  fd = CreateFileA(
+  fd = CreateFileW(
       file_path,
       GENERIC_READ,
       FILE_SHARE_READ,
@@ -295,7 +295,7 @@ YR_API int yr_filemap_map_ex(
 #else // POSIX
 
 YR_API int yr_filemap_map_ex(
-    const char* file_path,
+    const wchar_t* file_path,
     off_t offset,
     size_t size,
     YR_MAPPED_FILE* pmapped_file)

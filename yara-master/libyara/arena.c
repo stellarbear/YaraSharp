@@ -928,6 +928,7 @@ int yr_arena_load_stream(
   uint32_t reloc_offset;
   uint8_t** reloc_address;
   uint8_t* reloc_target;
+  uint32_t max_reloc_offset;
 
   int result;
 
@@ -973,9 +974,11 @@ int yr_arena_load_stream(
     return ERROR_CORRUPT_FILE;
   }
 
+  max_reloc_offset = header.size - sizeof(uint8_t*);
+
   while (reloc_offset != 0xFFFFFFFF)
   {
-    if (reloc_offset > header.size - sizeof(uint8_t*))
+    if (reloc_offset > max_reloc_offset)
     {
       yr_arena_destroy(new_arena);
       return ERROR_CORRUPT_FILE;
@@ -986,10 +989,19 @@ int yr_arena_load_stream(
     reloc_address = (uint8_t**) (page->address + reloc_offset);
     reloc_target = *reloc_address;
 
-    if (reloc_target != (uint8_t*) (size_t) 0xFFFABADA)
-      *reloc_address += (size_t) page->address;
-    else
+    if (reloc_target == (uint8_t*) (size_t) 0xFFFABADA)
+    {
       *reloc_address = 0;
+    }
+    else if (reloc_target < (uint8_t*) (size_t) max_reloc_offset)
+    {
+      *reloc_address += (size_t) page->address;
+    }
+    else
+    {
+      yr_arena_destroy(new_arena);
+      return ERROR_CORRUPT_FILE;
+    }
 
     if (yr_stream_read(&reloc_offset, sizeof(reloc_offset), 1, stream) != 1)
     {
@@ -1079,8 +1091,11 @@ int yr_arena_save_stream(
   header.size = (int32_t) page->size;
   header.version = ARENA_FILE_VERSION;
 
-  yr_stream_write(&header, sizeof(header), 1, stream);
-  yr_stream_write(page->address, header.size, 1, stream);
+  if (yr_stream_write(&header, sizeof(header), 1, stream) != 1)
+    return ERROR_WRITING_FILE;
+
+  if (yr_stream_write(page->address, header.size, 1, stream) != 1)
+    return ERROR_WRITING_FILE;
 
   file_hash = yr_hash(0, &header, sizeof(header));
   file_hash = yr_hash(file_hash, page->address, page->used);
@@ -1090,7 +1105,8 @@ int yr_arena_save_stream(
   // Convert offsets back to pointers.
   while (reloc != NULL)
   {
-    yr_stream_write(&reloc->offset, sizeof(reloc->offset), 1, stream);
+    if (yr_stream_write(&reloc->offset, sizeof(reloc->offset), 1, stream) != 1)
+      return ERROR_WRITING_FILE;
 
     reloc_address = (uint8_t**) (page->address + reloc->offset);
     reloc_target = *reloc_address;
@@ -1103,8 +1119,11 @@ int yr_arena_save_stream(
     reloc = reloc->next;
   }
 
-  yr_stream_write(&end_marker, sizeof(end_marker), 1, stream);
-  yr_stream_write(&file_hash, sizeof(file_hash), 1, stream);
+  if (yr_stream_write(&end_marker, sizeof(end_marker), 1, stream) != 1)
+    return ERROR_WRITING_FILE;
+
+  if (yr_stream_write(&file_hash, sizeof(file_hash), 1, stream) != 1)
+    return ERROR_WRITING_FILE;
 
   return ERROR_SUCCESS;
 }

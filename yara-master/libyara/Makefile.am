@@ -69,6 +69,7 @@ yarainclude_HEADERS = \
   include/yara/ahocorasick.h \
   include/yara/arena.h \
   include/yara/atoms.h \
+  include/yara/bitmask.h \
   include/yara/compiler.h \
   include/yara/error.h \
   include/yara/exec.h \
@@ -112,7 +113,7 @@ noinst_HEADERS = \
 
 lib_LTLIBRARIES = libyara.la
 
-libyara_la_LDFLAGS = -version-number 3:7:0
+libyara_la_LDFLAGS = -version-number 3:8:1
 
 BUILT_SOURCES = \
   lexer.c \
@@ -128,6 +129,7 @@ libyara_la_SOURCES = \
   ahocorasick.c \
   arena.c \
   atoms.c \
+  bitmask.c \
   compiler.c \
   endian.c \
   exec.c \

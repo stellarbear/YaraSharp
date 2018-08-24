@@ -29,6 +29,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <unistd.h>
 #include <signal.h>
 
@@ -87,6 +89,27 @@ static void test_comparison_operators()
 
   assert_true_rule(
       "rule test { condition: 1.5 >= 1.0}", NULL);
+
+  assert_true_rule(
+      "rule test { condition: 1.0 != 1.000000000000001 }", NULL);
+
+  assert_true_rule(
+      "rule test { condition: 1.0 < 1.000000000000001 }", NULL);
+
+  assert_false_rule(
+      "rule test { condition: 1.0 >= 1.000000000000001 }", NULL);
+
+  assert_true_rule(
+      "rule test { condition: 1.000000000000001 > 1 }", NULL);
+
+  assert_false_rule(
+      "rule test { condition: 1.000000000000001 <= 1 }", NULL);
+
+  assert_true_rule(
+      "rule test { condition: 1.0 == 1.0000000000000001 }", NULL);
+
+  assert_true_rule(
+      "rule test { condition: 1.0 >= 1.0000000000000001 }", NULL);
 
   assert_true_rule(
       "rule test { condition: 1.5 >= 1}", NULL);
@@ -1161,10 +1184,9 @@ void test_re()
   assert_true_regexp("ab{1,3}", "abbbbb", "abbb");
   assert_true_regexp("ab{2,2}", "abbbbb", "abb");
   assert_true_regexp("ab{2,3}", "abbbbb", "abbb");
-  assert_true_regexp("ab{2,4}", "abbbbc", "abbbbc");
+  assert_true_regexp("ab{2,4}", "abbbbc", "abbbb");
   assert_true_regexp("ab{3,4}", "abbb", "abbb");
-  assert_true_regexp("ab{3,4}", "abbbbc", "abbbbc");
-  assert_true_regexp("ab{3,5}", "abbbbc", "abbbbc");
+  assert_true_regexp("ab{3,5}", "abbbbb", "abbbbb");
   assert_false_regexp("ab{3,4}c", "abbbbbc");
   assert_false_regexp("ab{3,4}c", "abbc");
   assert_false_regexp("ab{3,5}c", "abbbbbbc");
@@ -1865,8 +1887,106 @@ void test_process_scan()
 }
 
 
+void test_performance_warnings()
+{
+  assert_warning(
+      "rule test { \
+        strings: $a = { 01 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 01 ?? } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 01 00 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 01 ?? ?? } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 01 ?? ?? 02 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 00 01 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 01 00 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 00 00 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 00 00 00 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 00 00 00 00 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 00 00 00 01 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { 00 00 01 02 } \
+        condition: $a }")
+
+  assert_warning(
+      "rule test { \
+        strings: $a = { FF FF FF FF } \
+        condition: $a }")
+
+  assert_no_warnings(
+       "rule test { \
+        strings: $a = { 00 01 02 03 } \
+        condition: $a }")
+
+  assert_no_warnings(
+       "rule test { \
+        strings: $a = { 01 02 03 04 } \
+        condition: $a }")
+
+  assert_no_warnings(
+       "rule test { \
+        strings: $a = { 01 02 03 } \
+        condition: $a }")
+
+  assert_no_warnings(
+       "rule test { \
+        strings: $a = { 20 01 02 } \
+        condition: $a }")
+
+  assert_no_warnings(
+       "rule test { \
+        strings: $a = { 01 02 } \
+        condition: $a }")
+}
+
+
 int main(int argc, char** argv)
 {
+  char *top_srcdir = getenv("TOP_SRCDIR");
+  if (top_srcdir)
+    chdir(top_srcdir);
+
   yr_initialize();
 
   test_boolean_operators();
@@ -1902,7 +2022,7 @@ int main(int argc, char** argv)
   test_entrypoint();
   test_global_rules();
 
-  #if HAVE_SCAN_PROC_IMPL == 1
+  #if !defined(USE_WINDOWS_PROC) && !defined(USE_NO_PROC)
   test_process_scan();
   #endif
 
@@ -1911,6 +2031,7 @@ int main(int argc, char** argv)
   #endif
 
   test_time_module();
+  test_performance_warnings();
 
   yr_finalize();
 
