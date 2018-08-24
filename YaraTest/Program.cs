@@ -32,7 +32,7 @@ namespace YaraTest
             using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
             {
                 //	Compiling rules
-                using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(Directory.GetFiles(@"<path to signatures>", "*.yar", SearchOption.AllDirectories).ToList(), Externals, out Errors))
+                using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(Directory.GetFiles(@"<dir with signatures>", "*.yar", SearchOption.AllDirectories).ToList(), Externals, out Errors))
                 {
                     //  Some file to test yara rules
                     string Filename = @"\\?\<path to file>";
