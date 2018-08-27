@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>YaraSharp</id>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <title>YaraSharp</title>
     <authors>stellarbears</authors>
     <owners>stellarbears</owners>
@@ -16,7 +16,8 @@
     <tags>yara yara-scanner wrapper-api wrapper-library yara-forensics wrapper libyara async-scanning net csharp</tags>
   </metadata>
   <files>
+    <file src="Release\x86\YaraSharp.dll" target="lib/net" />
     <file src="Release\**\YaraSharp.dll" target="build/net" />
-    <file src="Release\**\YaraSharp.props" target="build/net" />
+    <file src="Release\**\YaraSharp.targets" target="build/net" />
 </files>
 </package>
