@@ -68,7 +68,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="dll.rc" />
-  </ItemGroup>
 </Project>

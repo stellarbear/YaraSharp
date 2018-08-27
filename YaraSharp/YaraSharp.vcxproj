@@ -180,9 +180,6 @@
     </ClCompile>
     <ClCompile Include="YaraSharp.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="dll.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
