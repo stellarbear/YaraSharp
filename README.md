@@ -81,6 +81,8 @@ Build in vs 2017
 
 Compiled with yara 3.8.1
 
+Yara patched to support unicode paths
+
 You can use or modify the sources however you want
 
 Special thanks to [kallanreed](https://github.com/kallanreed/libyara.NET)
