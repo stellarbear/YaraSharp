@@ -14,7 +14,7 @@ namespace YaraSharp
 		{
 			CCompiler^ TestCompiler = gcnew CCompiler(ExternalVariables);
 
-			if (TestCompiler->AddFile(FilePathList[i]))
+			if (TestCompiler->AddFile(FilePathList[i]) || TestCompiler->GetErrors()->Count > 0)
 			{
 				CompilationErrors->Add(FilePathList[i], TestCompiler->GetErrors());
 				FilePathList->Remove(FilePathList[i--]);
@@ -31,7 +31,7 @@ namespace YaraSharp
 			CCompiler^ TestCompiler = gcnew CCompiler(ExternalVariables);
 			for each (auto FilePath in FilePathList)
 			{
-				if (TestCompiler->AddFile(FilePath))
+				if (TestCompiler->AddFile(FilePath) || TestCompiler->GetErrors()->Count > 0)
 				{
 					CompilationErrors->Add(FilePath, TestCompiler->GetErrors());
 					FilePathList->Remove(FilePath);
