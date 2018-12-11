@@ -10,7 +10,11 @@ namespace YaraSharp
 		ErrorUtility::ThrowOnError(yr_compiler_create(&TestCompiler));
 		Compiler = TestCompiler;
 
-		Errors = gcnew List<String^>();
+		// Set up and initialize the error dictionary for errors and warnings
+		// Which are populated by the callback handler
+		Errors = gcnew Dictionary<int, List<String^>^>();
+		Errors->Add(YARA_ERROR_LEVEL_ERROR, gcnew List<String^>());
+		Errors->Add(YARA_ERROR_LEVEL_WARNING, gcnew List<String^>());
 		
 		SetCompilerExternals(ExternalVariables);
 		SetCompilerCallback();
@@ -52,7 +56,11 @@ namespace YaraSharp
 	}
 	List<String^>^ CCompiler::GetErrors()
 	{
-		return this->Errors;
+		return this->Errors[YARA_ERROR_LEVEL_ERROR];
+	}
+	List<String^>^ CCompiler::GetWarnings()
+	{
+		return this->Errors[YARA_ERROR_LEVEL_WARNING];
 	}
 
 	//	Set externals
@@ -99,20 +107,11 @@ namespace YaraSharp
 		UNREFERENCED_PARAMETER(UserData);
 
 		String^ errorLevel;
-
-		if (ErrorLevel == YARA_ERROR_LEVEL_ERROR)
-		{
-			errorLevel = "ERROR";
-		}
-		else if (ErrorLevel == YARA_ERROR_LEVEL_WARNING)
-		{
-			errorLevel = "WARNING";
-		}
-
-		auto msg = String::Format("{0}: {1} on line {2} in file: {3}",
-			errorLevel, marshal_as<String^>(Message), LineNumber,
+		
+		auto msg = String::Format("{0} on line {1} in file: {2}",
+			marshal_as<String^>(Message), LineNumber,
 			Filename ? marshal_as<String^>(Filename) : "[none]");
 
-		Errors->Add(msg);
+		Errors[ErrorLevel]->Add(msg);
 	}
 }

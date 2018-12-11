@@ -19,6 +19,10 @@ namespace YaraSharp
 				CompilationErrors->Add(FilePathList[i], TestCompiler->GetErrors());
 				FilePathList->Remove(FilePathList[i--]);
 			}
+			else if (TestCompiler->GetWarnings()->Count > 0)
+			{
+				CompilationErrors->Add(FilePathList[i], TestCompiler->GetWarnings());
+			}
 
 			delete TestCompiler;
 		}
@@ -40,6 +44,10 @@ namespace YaraSharp
 					//	New compiler must be created if we fail
 					delete TestCompiler;
 					break;
+				}
+				else if (TestCompiler->GetWarnings()->Count > 0)
+				{
+					CompilationErrors->Add(FilePath, TestCompiler->GetWarnings());
 				}
 			}
 		}
