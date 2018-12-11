@@ -98,8 +98,19 @@ namespace YaraSharp
 		UNREFERENCED_PARAMETER(ErrorLevel);
 		UNREFERENCED_PARAMETER(UserData);
 
-		auto msg = String::Format("{0} in line {1} in file: {2}",
-			marshal_as<String^>(Message), LineNumber,
+		String^ errorLevel;
+
+		if (ErrorLevel == YARA_ERROR_LEVEL_ERROR)
+		{
+			errorLevel = "ERROR";
+		}
+		else if (ErrorLevel == YARA_ERROR_LEVEL_WARNING)
+		{
+			errorLevel = "WARNING";
+		}
+
+		auto msg = String::Format("{0}: {1} on line {2} in file: {3}",
+			errorLevel, marshal_as<String^>(Message), LineNumber,
 			Filename ? marshal_as<String^>(Filename) : "[none]");
 
 		Errors->Add(msg);
