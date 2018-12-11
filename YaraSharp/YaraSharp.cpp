@@ -13,7 +13,7 @@ namespace YaraSharp
 		{
 			CCompiler^ TestCompiler = gcnew CCompiler(ExternalVariables);
 
-			if (TestCompiler->AddFile(FilePathList[i]) || TestCompiler->GetErrors(false)->Count > 0)
+			if (TestCompiler->AddFile(FilePathList[i]))
 			{
 				if (CompilationErrors->ContainsKey(FilePathList[i]))
 				{
