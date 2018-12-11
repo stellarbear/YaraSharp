@@ -15,8 +15,7 @@ namespace YaraSharp
 		~CCompiler();
 
 		CRules^ GetRules();
-		List<String^>^ GetErrors();
-		List<String^>^ GetWarnings();
+		List<String^>^ GetErrors(Boolean IncludeWarnings);
 		int AddFile(String^ FilePath);
 		void AddFiles(List<String^>^ FilePathList);
 

@@ -6,50 +6,39 @@ namespace YaraSharp
 	//	Check list of yara files
 	Dictionary<String^, List<String^>^>^ CYaraSharp::CheckYaraRules([Out] List<String^>^ FilePathList, Dictionary<String^, Object^>^ ExternalVariables)
 	{
-		Dictionary<String^, List<String^>^>^ CompilationErrors =
-			gcnew Dictionary<String^, List<String^>^>();
+		Dictionary<String^, List<String^>^>^ CompilationErrors = gcnew Dictionary<String^, List<String^>^>();
 
 		//	Iterative check
 		for (int i = 0; i < FilePathList->Count; i++)
 		{
 			CCompiler^ TestCompiler = gcnew CCompiler(ExternalVariables);
 
-			if (TestCompiler->AddFile(FilePathList[i]) || TestCompiler->GetErrors()->Count > 0)
+			if (TestCompiler->AddFile(FilePathList[i]) || TestCompiler->GetErrors(false)->Count > 0)
 			{
-				CompilationErrors->Add(FilePathList[i], TestCompiler->GetErrors());
+				if (CompilationErrors->ContainsKey(FilePathList[i]))
+				{
+					CompilationErrors[FilePathList[i]]->AddRange(TestCompiler->GetErrors(false));
+				}
+				else
+				{
+					CompilationErrors->Add(FilePathList[i], TestCompiler->GetErrors(false));
+				}
+
 				FilePathList->Remove(FilePathList[i--]);
 			}
-			else if (TestCompiler->GetWarnings()->Count > 0)
+			else if (TestCompiler->GetErrors(true)->Count > 0)
 			{
-				CompilationErrors->Add(FilePathList[i], TestCompiler->GetWarnings());
+				if (CompilationErrors->ContainsKey(FilePathList[i]))
+				{
+					CompilationErrors[FilePathList[i]]->AddRange(TestCompiler->GetErrors(true));
+				}
+				else
+				{
+					CompilationErrors->Add(FilePathList[i], TestCompiler->GetErrors(true));
+				}
 			}
 
 			delete TestCompiler;
-		}
-
-		//	Simultaneous check
-		bool SuccessFlag = false;
-		while (!SuccessFlag)
-		{
-			SuccessFlag = true;
-			CCompiler^ TestCompiler = gcnew CCompiler(ExternalVariables);
-			for each (auto FilePath in FilePathList)
-			{
-				if (TestCompiler->AddFile(FilePath) || TestCompiler->GetErrors()->Count > 0)
-				{
-					CompilationErrors->Add(FilePath, TestCompiler->GetErrors());
-					FilePathList->Remove(FilePath);
-					SuccessFlag = false;
-
-					//	New compiler must be created if we fail
-					delete TestCompiler;
-					break;
-				}
-				else if (TestCompiler->GetWarnings()->Count > 0)
-				{
-					CompilationErrors->Add(FilePath, TestCompiler->GetWarnings());
-				}
-			}
 		}
 
 		return CompilationErrors;

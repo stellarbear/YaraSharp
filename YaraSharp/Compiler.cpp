@@ -15,7 +15,7 @@ namespace YaraSharp
 		Errors = gcnew Dictionary<int, List<String^>^>();
 		Errors->Add(YARA_ERROR_LEVEL_ERROR, gcnew List<String^>());
 		Errors->Add(YARA_ERROR_LEVEL_WARNING, gcnew List<String^>());
-		
+
 		SetCompilerExternals(ExternalVariables);
 		SetCompilerCallback();
 	}
@@ -27,12 +27,15 @@ namespace YaraSharp
 	{
 		FILE* File;
 		Errors->Clear();
+		Errors->Add(YARA_ERROR_LEVEL_ERROR, gcnew List<String^>());
+		Errors->Add(YARA_ERROR_LEVEL_WARNING, gcnew List<String^>());
+
 		auto NativePath = marshal_as<std::string>(FilePath);
 
 		auto FileOpenError = fopen_s(&File, NativePath.c_str(), "r");
 
 		if (FileOpenError)
-			ErrorUtility::ThrowOnError(String::Format("Ошибка открытия файла: {0}", FileOpenError));
+			ErrorUtility::ThrowOnError(String::Format("Error opening file: {0}", FileOpenError));
 
 		auto errors = yr_compiler_add_file(Compiler, File, nullptr, NativePath.c_str());
 
@@ -40,11 +43,13 @@ namespace YaraSharp
 
 		return errors;
 	}
+
 	void CCompiler::AddFiles(List<String^>^ FilePathList)
 	{
 		for each (auto FilePath in FilePathList)
 			AddFile(FilePath);
 	}
+
 	CRules^ CCompiler::GetRules()
 	{
 		YR_RULES* Rules;
@@ -54,13 +59,17 @@ namespace YaraSharp
 
 		return gcnew CRules(Rules);
 	}
-	List<String^>^ CCompiler::GetErrors()
+
+	List<String^>^ CCompiler::GetErrors(Boolean IncludeWarnings)
 	{
+		if (IncludeWarnings)
+		{
+			List<String^>^ errorsAndWarnings = gcnew List<String^>(this->Errors[YARA_ERROR_LEVEL_ERROR]);
+			errorsAndWarnings->AddRange(this->Errors[YARA_ERROR_LEVEL_WARNING]);
+			return errorsAndWarnings;
+		}
+		
 		return this->Errors[YARA_ERROR_LEVEL_ERROR];
-	}
-	List<String^>^ CCompiler::GetWarnings()
-	{
-		return this->Errors[YARA_ERROR_LEVEL_WARNING];
 	}
 
 	//	Set externals
@@ -101,15 +110,21 @@ namespace YaraSharp
 		YR_COMPILER_CALLBACK_FUNC CallbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(CompilerCallback)).ToPointer();
 		yr_compiler_set_callback(Compiler, CallbackPointer, NULL);
 	}
+
 	void CCompiler::HandleCompilerCallback(int ErrorLevel, const char* Filename, int LineNumber, const char* Message, void* UserData)
 	{
 		UNREFERENCED_PARAMETER(ErrorLevel);
 		UNREFERENCED_PARAMETER(UserData);
 
-		String^ errorLevel;
+		String^ errorLevel = "ERROR";
+
+		if (ErrorLevel == YARA_ERROR_LEVEL_WARNING)
+		{
+			errorLevel = "WARNING";
+		}
 		
-		auto msg = String::Format("{0} on line {1} in file: {2}",
-			marshal_as<String^>(Message), LineNumber,
+		auto msg = String::Format("{0}: {1} on line {2} in file: {3}",
+			errorLevel, marshal_as<String^>(Message), LineNumber,
 			Filename ? marshal_as<String^>(Filename) : "[none]");
 
 		Errors[ErrorLevel]->Add(msg);
