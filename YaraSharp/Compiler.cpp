@@ -31,58 +31,31 @@ namespace YaraSharp
 	}
 
 	//	Rule region
-	int YSCompiler::AddFile(String^ filePath)
+	void YSCompiler::AddFile(String^ filePath)
 	{
-		FILE* File;
-
-		auto NativePath = marshal_as<std::string>(filePath);
-
-		auto FileOpenError = fopen_s(&File, NativePath.c_str(), "r");
-
-		if (FileOpenError)
-			YSException::ThrowOnError(String::Format("Error opening file: {0}", FileOpenError));
-
-		auto errors = yr_compiler_add_file(compiler, File, nullptr, NativePath.c_str());
-
-		if (File) fclose(File);
-
-		return errors;
+		BindFileToCompiler(this->compiler, filePath);
 	}
-	int YSCompiler::TryAddFile(String^ filePath, Dictionary<String^, Object^>^ externalVariables)
+	void YSCompiler::TryAddFile(String^ filePath, Dictionary<String^, Object^>^ externalVariables)
 	{
-		FILE* File;
-
-		auto NativePath = marshal_as<std::string>(filePath);
-
-		auto FileOpenError = fopen_s(&File, NativePath.c_str(), "r");
-
-		if (FileOpenError)
-			YSException::ThrowOnError(String::Format("Error opening file: {0}", FileOpenError));
-
 		YSCompiler^ testCompiler = gcnew YSCompiler(externalVariables);
-
-		auto errors = yr_compiler_add_file(testCompiler->compiler, File, nullptr, NativePath.c_str());
-
+		BindFileToCompiler(testCompiler->compiler, filePath);
 
 		bool isFileCorrect = testCompiler->GetErrors()->IsEmpty();
 
 		//	If there are some errors => report to main compiler
-		if (!isFileCorrect) {
+		if (!isFileCorrect) 
+		{
 			this->errors->MergeReports(testCompiler->GetErrors());
+			//	Warnings are not passed, or else they will be duplicated
 		}
-
-		delete testCompiler;
-
-		if (File) fclose(File);
-
 		//	If no errors => pass file to main compiler
-		if (isFileCorrect) {
+		else
+		{
 			AddFile(filePath);
 		}
 
-		return errors;
+		delete testCompiler;
 	}
-
 	void YSCompiler::AddFiles(List<String^>^ filePathList, Dictionary<String^, Object^>^ externalVariables)
 	{
 		for each (auto filePath in filePathList)
@@ -98,8 +71,6 @@ namespace YaraSharp
 
 		return gcnew YSRules(ysRules);
 	}
-
-
 	YSReport^ YSCompiler::GetErrors()
 	{
 		return this->errors;
@@ -107,6 +78,26 @@ namespace YaraSharp
 	YSReport^ YSCompiler::GetWarnings()
 	{
 		return this->warnings;
+	}
+
+
+	void YSCompiler::BindFileToCompiler(YR_COMPILER* compiler, String^ filePath)
+	{
+		FILE* File;
+
+		auto NativePath = marshal_as<std::string>(filePath);
+
+		auto FileOpenError = fopen_s(&File, NativePath.c_str(), "r");
+
+		if (FileOpenError)
+			YSException::ThrowOnError(String::Format("Error opening file: {0}", FileOpenError));
+
+		auto errors = yr_compiler_add_file(compiler, File, nullptr, NativePath.c_str());
+
+		if (File)
+		{
+			fclose(File);
+		}
 	}
 
 	//	Set externals
