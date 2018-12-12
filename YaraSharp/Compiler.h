@@ -3,25 +3,29 @@
 namespace YaraSharp
 {
 	[UnmanagedFunctionPointer(CallingConvention::Cdecl)]
-	delegate void YaraCompilerCallback(int ErrorLevel, const char* Filename, int LineNumber, const char* Message, void* UserData);
+	delegate void YaraCompilerCallback(int errorLevel, const char* filename, int lineNumber, const char* message, void* userData);
 
-	public ref class CCompiler sealed
+	public ref class YSCompiler sealed
 	{
-		initonly YR_COMPILER* Compiler;
-		initonly Dictionary<int, List<String^>^>^ Errors;
+		YSReport^ errors;
+		YSReport^ warnings;
+		initonly YR_COMPILER* compiler;
 
 	public:
-		CCompiler(Dictionary<String^, Object^>^ ExternalVariables);
-		~CCompiler();
+		YSCompiler(Dictionary<String^, Object^>^ externalVariables);
+		~YSCompiler();
 
-		CRules^ GetRules();
-		List<String^>^ GetErrors(Boolean IncludeWarnings);
+		YSRules^ GetRules();
+		YSReport^ GetErrors();
+		YSReport^ GetWarnings();
+
 		int AddFile(String^ FilePath);
-		void AddFiles(List<String^>^ FilePathList);
-
-		void HandleCompilerCallback(int ErrorLevel, const char* Filename, int LineNumber, const char* Message, void* UserData);
+		int TryAddFile(String^ FilePath, Dictionary<String^, Object^>^ externalVariables);
+		void AddFiles(List<String^>^ filePathList, Dictionary<String^, Object^>^ externalVariables);
+		
 	private:
 		void SetCompilerCallback();
-		void SetCompilerExternals(Dictionary<String^, Object^>^ ExternalVariables);
+		void SetCompilerExternals(Dictionary<String^, Object^>^ externalVariables);
+		void HandleCompilerCallback(int errorLevel, const char* filename, int lineNumber, const char* message, void* userData);
 	};
 }

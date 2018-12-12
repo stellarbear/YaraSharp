@@ -7,32 +7,40 @@ Nuget package is [available](https://www.nuget.org/packages/YaraSharp)
 ## Usage
 ```C#
 //  All API calls happens here
-YaraSharp.CYaraSharp YSInstance = new CYaraSharp();
+YSInstance YSInstance = new YSInstance();
         
 //  Declare external variables (could be null)
-Dictionary<string, object> Externals = new Dictionary<string, object>()
+Dictionary<string, object> externals = new Dictionary<string, object>()
 {
     { "filename", string.Empty },
     { "filepath", string.Empty },
     { "extension", string.Empty }
 };
 
-//  Errors occured during rule compilation: ignored_file : List<reasons>
-Dictionary<string, List<string>> Errors = new Dictionary<string, List<string>>();
+//	Get list of YARA rules
+List<string> ruleFilenames = Directory.GetFiles(@"D:\Test\yara", "*.yar", SearchOption.AllDirectories).ToList();
 
 //  Context is where yara is initialized
 //  From yr_initialize() to yr_finalize()
-using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
+using (YSContext context = new YSContext())
 {
 	//	Compiling rules
-	using (YaraSharp.CRules YSRules = YSInstance.CompileFromFiles(RuleFilenames, Externals, out Errors))
+	using (YSCompiler compiler = instance.CompileFromFiles(ruleFilenames, externals))
 	{
-		//  Some file to test yara rules
-		//	Here comes long filenames
-		string Filename = "\\?\<some_file>";
+        //  Get compiled rules
+        YSRules rules = compiler.GetRules();
+
+        //  Get errors
+        YSReport errors = compiler.GetErrors();
+        //  Get warnings
+        YSReport warnings = compiler.GetWarnings();
+
+
+        //  Some file to test yara rules
+        string Filename = @"";
 
 		//  Get matches
-		List<YaraSharp.CMatches> Matches = YSInstance.ScanFile(Filename, YSRules, 
+		List<YSMatches> Matches = instance.ScanFile(Filename, rules,
 				new Dictionary<string, object>()
 				{
 					{ "filename", Alphaleonis.Win32.Filesystem.Path.GetFileName(Filename) },
@@ -42,7 +50,7 @@ using (YaraSharp.CContext YSContext = new YaraSharp.CContext())
 				0);
 
 		//  Iterate over matches
-		foreach (YaraSharp.CMatches Match in Matches)
+		foreach (YSMatches Match in Matches)
 		{
 			//...
 		}

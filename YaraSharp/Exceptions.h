@@ -2,7 +2,7 @@
 
 namespace YaraSharp
 {
-	public ref class ErrorUtility abstract sealed
+	public ref class YSException abstract sealed
 	{
 	private:
 		static String^ NiceErrorCode(int error);

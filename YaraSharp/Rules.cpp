@@ -1,84 +1,97 @@
 #include "Stdafx.h"
 
-//	CRules
+//	Rules
 namespace YaraSharp
 {
-	CRules::operator YR_RULES*() { return Rules; }
-	CRules::CRules(YR_RULES* rules) : Rules(rules) { }
-	CRules::~CRules() { if (Rules) yr_rules_destroy(Rules); }
-	void CRules::Destroy() { delete this; }
-}
-//	CRule
-namespace YaraSharp
-{
-	CRule::CRule()
+	YSRules::operator YR_RULES*()
+	{ 
+		return rules;
+	}
+	YSRules::YSRules(YR_RULES* rules)
 	{
-		Namespace = nullptr;
+		this->rules = rules;
+	}
+	YSRules::~YSRules()
+	{ 
+		if (rules)
+		{
+			yr_rules_destroy(rules);
+		}
+	}
+	void YSRules::Destroy()
+	{
+		delete this; 
+	}
+}
+//	YSRule
+namespace YaraSharp
+{
+	YSRule::YSRule()
+	{
 		Identifier = nullptr;
 		Tags = gcnew List<String^>();
 		Strings = gcnew List<String^>();
 		Meta = gcnew Dictionary<String^, Object^>();
 	}
-	CRule::CRule(YR_RULE* Rule)
+	YSRule::YSRule(YR_RULE* Rule)
 	{
-		Namespace = nullptr;
-		Tags = CRule::GetRuleTags(Rule);
-		Meta = CRule::GetRuleMeta(Rule);
-		Strings = CRule::GetRuleStrings(Rule);
+		Tags = YSRule::GetRuleTags(Rule);
+		Meta = YSRule::GetRuleMeta(Rule);
+		Strings = YSRule::GetRuleStrings(Rule);
 		Identifier = gcnew String(Rule->identifier);
 	}
 
-	List<String^>^ CRule::GetRuleTags(YR_RULE* Rule)
+	List<String^>^ YSRule::GetRuleTags(YR_RULE* rule)
 	{
-		List<String^>^ Result = gcnew List<String^>();
+		List<String^>^ result = gcnew List<String^>();
 
-		const char* TagEntry;
-		yr_rule_tags_foreach(Rule, TagEntry)
-			Result->Add(gcnew String(TagEntry));
+		const char* tagEntry;
+		yr_rule_tags_foreach(rule, tagEntry)
+			result->Add(gcnew String(tagEntry));
 
-		return Result;
+		return result;
 	}
-	List<String^>^ CRule::GetRuleStrings(YR_RULE* Rule)
+	List<String^>^ YSRule::GetRuleStrings(YR_RULE* rule)
 	{
-		List<String^>^ Result = gcnew List<String^>();
+		List<String^>^ result = gcnew List<String^>();
 
-		YR_STRING* StringEntry;
-		yr_rule_strings_foreach(Rule, StringEntry)
-			Result->Add(gcnew String(StringEntry->identifier));
+		YR_STRING* stringEntry;
+		yr_rule_strings_foreach(rule, stringEntry)
+			result->Add(gcnew String(stringEntry->identifier));
 
-		return Result;
+		return result;
 	}
-	Dictionary<String^, Object^>^ CRule::GetRuleMeta(YR_RULE* Rule)
+	Dictionary<String^, Object^>^ YSRule::GetRuleMeta(YR_RULE* rule)
 	{
-		Dictionary<String^, Object^>^ Result = gcnew Dictionary<String^, Object^>();
+		Dictionary<String^, Object^>^ result = gcnew Dictionary<String^, Object^>();
 
-		YR_META* MetaEntry;
-		yr_rule_metas_foreach(Rule, MetaEntry)
+		YR_META* metaEntry;
+		yr_rule_metas_foreach(rule, metaEntry)
 		{
-			if (MetaEntry->identifier == NULL)
+			if (metaEntry->identifier == NULL)
 				throw gcnew NullReferenceException("(Meta) Значение не может быть пустым");
 
-			String^ MetaID = gcnew String(MetaEntry->identifier);
-			Object^ MetaValue = nullptr;
+			String^ metaID = gcnew String(metaEntry->identifier);
+			Object^ metaValue = nullptr;
 
-			switch (MetaEntry->type)
+			switch (metaEntry->type)
 			{
 			case META_TYPE_BOOLEAN:
-				MetaValue = (bool)(MetaEntry->integer == 1);
+				metaValue = (bool)(metaEntry->integer == 1);
 				break;
 			case META_TYPE_INTEGER:
-				MetaValue = (Int32)MetaEntry->integer;
+				metaValue = (Int32)metaEntry->integer;
 				break;
 			case META_TYPE_STRING:
-				MetaValue = gcnew String(MetaEntry->string);
+				metaValue = gcnew String(metaEntry->string);
 				break;
 			}
 
 			//	Distinct
-			if (!Result->ContainsKey(MetaID))
-				Result->Add(MetaID, MetaValue);
+			if (!result->ContainsKey(metaID))
+				result->Add(metaID, metaValue);
 		}
 
-		return Result;
+		return result;
 	}
 }

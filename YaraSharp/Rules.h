@@ -2,33 +2,32 @@
 
 namespace YaraSharp
 {
-	public ref class CRules sealed
+	public ref class YSRules sealed
 	{
-		YR_RULES* Rules;
+		YR_RULES* rules;
 
 	public:
-		CRules(YR_RULES* rules);
+		YSRules(YR_RULES* rules);
 		operator YR_RULES*();
 		void Destroy();
-		~CRules();
+		~YSRules();
 	};
 
 
-	public ref class CRule sealed
+	public ref class YSRule sealed
 	{
 	public:
-		property String^ Namespace;
 		property String^ Identifier;
 		property List<String^>^ Tags;
-		property Dictionary<String^, Object^>^ Meta;
 		property List<String^>^ Strings;
+		property Dictionary<String^, Object^>^ Meta;
 
-		CRule();
-		CRule(YR_RULE* Rule);
+		YSRule();
+		YSRule(YR_RULE* rule);
 
 	private:
-		List<String^>^ CRule::GetRuleTags(YR_RULE* Rule);
-		List<String^>^ CRule::GetRuleStrings(YR_RULE* Rule);
-		Dictionary<String^, Object^>^ CRule::GetRuleMeta(YR_RULE* Rule);
+		List<String^>^ GetRuleTags(YR_RULE* rule);
+		List<String^>^ GetRuleStrings(YR_RULE* rule);
+		Dictionary<String^, Object^>^ GetRuleMeta(YR_RULE* rule);
 	};
 }
