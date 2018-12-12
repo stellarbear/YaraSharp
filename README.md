@@ -26,7 +26,7 @@ using (YSContext context = new YSContext())
 {
     //	Compiling rules
     using (YSCompiler compiler = instance.CompileFromFiles(ruleFilenames, externals))
-	{
+    {
         //  Get compiled rules
         YSRules rules = compiler.GetRules();
 
