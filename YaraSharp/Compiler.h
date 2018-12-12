@@ -8,14 +8,14 @@ namespace YaraSharp
 	public ref class CCompiler sealed
 	{
 		initonly YR_COMPILER* Compiler;
-		initonly List<String^>^ Errors;
+		initonly Dictionary<int, List<String^>^>^ Errors;
 
 	public:
 		CCompiler(Dictionary<String^, Object^>^ ExternalVariables);
 		~CCompiler();
 
 		CRules^ GetRules();
-		List<String^>^ GetErrors();
+		List<String^>^ GetErrors(Boolean IncludeWarnings);
 		int AddFile(String^ FilePath);
 		void AddFiles(List<String^>^ FilePathList);
 
