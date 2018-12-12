@@ -24,9 +24,9 @@ List<string> ruleFilenames = Directory.GetFiles(@"D:\Test\yara", "*.yar", Search
 //  From yr_initialize() to yr_finalize()
 using (YSContext context = new YSContext())
 {
-	//	Compiling rules
-	using (YSCompiler compiler = instance.CompileFromFiles(ruleFilenames, externals))
-	{
+    //	Compiling rules
+    using (YSCompiler compiler = instance.CompileFromFiles(ruleFilenames, externals))
+    {
         //  Get compiled rules
         YSRules rules = compiler.GetRules();
 
