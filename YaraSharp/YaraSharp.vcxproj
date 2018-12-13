@@ -156,12 +156,13 @@
   <ItemGroup>
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="Context.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="YaraSharp.h" />
+    <ClInclude Include="Report.h" />
+    <ClInclude Include="Instance.h" />
     <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Rules.h" />
     <ClInclude Include="Scanner.h" />
-    <ClInclude Include="Result.h" />
+    <ClInclude Include="Matches.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +170,8 @@
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="Exceptions.cpp" />
-    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="Report.cpp" />
+    <ClCompile Include="Matches.cpp" />
     <ClCompile Include="Rules.cpp" />
     <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -178,7 +180,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="YaraSharp.cpp" />
+    <ClCompile Include="Instance.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="YaraSharp.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

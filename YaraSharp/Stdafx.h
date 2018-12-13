@@ -14,10 +14,11 @@ using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 
 #include "yara.h"
+#include "Report.h"
 #include "Exceptions.h"
 #include "Context.h"
 #include "Rules.h"
 #include "Compiler.h"
-#include "Result.h"
+#include "Matches.h"
 #include "Scanner.h"
-#include "YaraSharp.h"
+#include "Instance.h"

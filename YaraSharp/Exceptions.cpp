@@ -1,9 +1,9 @@
 #include "Stdafx.h"
 
-//	ErrorUtility
+//	YSException
 namespace YaraSharp
 {
-	void ErrorUtility::ThrowOnError(int error)
+	void YSException::ThrowOnError(int error)
 	{
 		switch (error)
 		{
@@ -17,12 +17,12 @@ namespace YaraSharp
 				throw gcnew Exception(String::Format("Yara error: {0}. Code {1}", NiceErrorCode(error), error));
 		}
 	}
-	void ErrorUtility::ThrowOnError(String^ error)
+	void YSException::ThrowOnError(String^ error)
 	{
 		throw gcnew Exception(String::Format("Error: {0}", error));
 	}
 
-	String^ ErrorUtility::NiceErrorCode(int error)
+	String^ YSException::NiceErrorCode(int error)
 	{
 		//	TODO: nice erros
 		switch (error)

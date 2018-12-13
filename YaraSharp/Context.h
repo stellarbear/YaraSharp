@@ -2,11 +2,11 @@
 
 namespace YaraSharp
 {
-	public ref class CContext sealed
+	public ref class YSContext sealed
 	{
 	public:
-		CContext();
-		~CContext();
+		YSContext();
+		~YSContext();
 		void Destroy();
 	};
 }

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YaraSharp;
 
 namespace YaraSharpUnitTests
@@ -25,16 +24,17 @@ namespace YaraSharpUnitTests
             string yaraRuleFile = Path.Combine(TestDataDirectory, $"{inputFileBase}.yar");
             string yaraInputFile = Path.Combine(TestDataDirectory, $"{inputFileBase}.txt");
 
-            CYaraSharp yaraInstance = new CYaraSharp();
+            YSInstance yaraInstance = new YSInstance();
 
-            using (CContext context = new CContext())
+            using (YSContext context = new YSContext())
             {
-                using (CCompiler compiler = new CCompiler(null))
+                using (YSCompiler compiler = new YSCompiler(null))
                 {
                     compiler.AddFile(yaraRuleFile);
-                    List<string> compilerErrors = compiler.GetErrors(true);
+                    YSReport compilerErrors = compiler.GetErrors();
+                    YSReport compilerWarnings = compiler.GetWarnings();
 
-                    CScanner scanner = new CScanner(compiler.GetRules(), null);
+                    YSScanner scanner = new YSScanner(compiler.GetRules(), null);
                     Assert.IsTrue(scanner.ScanFile(yaraInputFile).Any(r => r.Rule.Identifier == "WarningRule"));
                 }
             }

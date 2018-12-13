@@ -1,11 +1,20 @@
 #include "Stdafx.h"
 
-//	CContext
+//	Context
 namespace YaraSharp
 {
-	//	Constructor
-	CContext::CContext() { ErrorUtility::ThrowOnError(yr_initialize()); }
-	//	Destructor
-	CContext::~CContext() { ErrorUtility::ThrowOnError(yr_finalize()); }
-	void CContext::Destroy() { delete this; }
+	YSContext::YSContext()
+	{ 
+		YSException::ThrowOnError(yr_initialize()); 
+	}
+
+	YSContext::~YSContext()
+	{ 
+		YSException::ThrowOnError(yr_finalize()); 
+	}
+
+	void YSContext::Destroy()
+	{ 
+		delete this; 
+	}
 }

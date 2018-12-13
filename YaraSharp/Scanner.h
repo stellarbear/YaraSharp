@@ -3,23 +3,23 @@
 namespace YaraSharp
 {
 	[UnmanagedFunctionPointer(CallingConvention::Cdecl)]
-	delegate int YaraScanCallback(int Message, void* Data, void* Context);
+	delegate int YaraScanCallback(int message, void* data, void* context);
 
-	public ref class CScanner sealed
+	public ref class YSScanner sealed
 	{
-		initonly YR_SCANNER * Scanner;
-		List<CMatches^>^ Matches;
+		initonly YR_SCANNER * scanner;
+		List<YSMatches^>^ matches;
 
 	public:
-		CScanner(CRules^ rules, Dictionary<String^, Object^>^ ExternalVariables);
-		~CScanner();
+		YSScanner(YSRules^ rules, Dictionary<String^, Object^>^ externalVariables);
+		~YSScanner();
 
-		List<CMatches^>^ ScanProcess(int PID);
-		List<CMatches^>^ ScanFile(String^ Path);
-		List<CMatches^>^ ScanMemory(uint8_t* Buffer, int Length);
-		int HandleScannerCallback(int Message, void* Data, void* Context);
+		List<YSMatches^>^ ScanProcess(int pID);
+		List<YSMatches^>^ ScanFile(String^ path);
+		List<YSMatches^>^ ScanMemory(uint8_t* buffer, int length);
+		int HandleScannerCallback(int message, void* data, void* context);
 	private:
 		void SetScannerCallback();
-		void SetScannerExternals(Dictionary<String^, Object^>^ ExternalVariables);
+		void SetScannerExternals(Dictionary<String^, Object^>^ externalVariables);
 	};
 }
