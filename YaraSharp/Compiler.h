@@ -10,6 +10,7 @@ namespace YaraSharp
 		YSReport^ errors;
 		YSReport^ warnings;
 		initonly YR_COMPILER* compiler;
+		GCHandle callbackHandle;
 
 	public:
 		YSCompiler(Dictionary<String^, Object^>^ externalVariables);

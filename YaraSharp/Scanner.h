@@ -9,6 +9,7 @@ namespace YaraSharp
 	{
 		initonly YR_SCANNER * scanner;
 		List<YSMatches^>^ matches;
+		GCHandle callbackHandle;
 
 	public:
 		YSScanner(YSRules^ rules, Dictionary<String^, Object^>^ externalVariables);

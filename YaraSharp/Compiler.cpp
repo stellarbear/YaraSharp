@@ -26,6 +26,8 @@ namespace YaraSharp
 			yr_compiler_destroy(compiler);
 		}
 
+		callbackHandle.Free();
+
 		delete warnings;
 		delete errors;
 	}
@@ -134,7 +136,7 @@ namespace YaraSharp
 	void YSCompiler::SetCompilerCallback()
 	{
 		YaraCompilerCallback^ compilerCallback = gcnew YaraCompilerCallback(this, &YSCompiler::HandleCompilerCallback);
-		GCHandle callbackHandle = GCHandle::Alloc(compilerCallback);
+		callbackHandle = GCHandle::Alloc(compilerCallback);
 		YR_COMPILER_CALLBACK_FUNC callbackPointer = (YR_COMPILER_CALLBACK_FUNC)(Marshal::GetFunctionPointerForDelegate(compilerCallback)).ToPointer();
 		yr_compiler_set_callback(compiler, callbackPointer, NULL);
 	}
