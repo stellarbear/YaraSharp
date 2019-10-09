@@ -164,6 +164,7 @@
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="Matches.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="YaraExceptions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -181,6 +182,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Instance.cpp" />
+    <ClCompile Include="YaraExceptions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="YaraSharp.rc" />
