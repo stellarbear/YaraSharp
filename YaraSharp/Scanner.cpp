@@ -23,6 +23,8 @@ namespace YaraSharp
 		{
 			yr_scanner_destroy(scanner);
 		}
+
+		callbackHandle.Free();
 	}
 
 	//	Scan region
@@ -78,9 +80,9 @@ namespace YaraSharp
 	//	Callback
 	void YSScanner::SetScannerCallback()
 	{
-		YaraScanCallback^ ScannerCallback = gcnew YaraScanCallback(this, &YSScanner::HandleScannerCallback);
-		GCHandle CallbackHandle = GCHandle::Alloc(ScannerCallback);
-		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(ScannerCallback).ToPointer();
+		YaraScanCallback^ scannerCallback = gcnew YaraScanCallback(this, &YSScanner::HandleScannerCallback);
+		callbackHandle = GCHandle::Alloc(scannerCallback);
+		YR_CALLBACK_FUNC CallbackPointer = (YR_CALLBACK_FUNC)Marshal::GetFunctionPointerForDelegate(scannerCallback).ToPointer();
 		yr_scanner_set_callback(scanner, CallbackPointer, NULL);
 	}
 	int YSScanner::HandleScannerCallback(int message, void* data, void* context)

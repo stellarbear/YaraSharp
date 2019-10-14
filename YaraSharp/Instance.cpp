@@ -19,30 +19,48 @@ namespace YaraSharp
 	{
 		YSScanner^ FScanner = gcnew YSScanner(rules, externalVariables);
 
-		List<YSMatches^>^ results = FScanner->ScanFile(path);
-		delete FScanner;
-
-		return results;
+		try {
+			List<YSMatches^>^ results = FScanner->ScanFile(path);
+			return results;
+		}
+		catch (System::Exception^ e) {
+			throw e;
+		}
+		finally{
+			delete FScanner;
+		}
 	}
 	//	(not yet tested)
 	List<YSMatches^>^ YSInstance::ScanProcess(int pID, YSRules^ rules, Dictionary<String^, Object^>^ externalVariables, int timeout)
 	{
 		YSScanner^ PScanner = gcnew YSScanner(rules, externalVariables);
 
-		List<YSMatches^>^ results = PScanner->ScanProcess(pID);
-		delete PScanner;
-
-		return results;
+		try {
+			List<YSMatches^>^ results = PScanner->ScanProcess(pID);
+			return results;
+		}
+		catch (System::Exception^ e) {
+			throw e;
+		}
+		finally{
+			delete PScanner;
+		}
 	}
 	//	(not yet tested)
 	List<YSMatches^>^ YSInstance::ScanMemory(uint8_t* buffer, int length, YSRules^ rules, Dictionary<String^, Object^>^ externalVariables, int timeout)
 	{
 		YSScanner^ MScanner = gcnew YSScanner(rules, externalVariables);
 
-		List<YSMatches^>^ results = MScanner->ScanMemory(buffer, length);
-		delete MScanner;
-
-		return results;
+		try {
+			List<YSMatches^>^ results = MScanner->ScanMemory(buffer, length);
+			return results;
+		}
+		catch (System::Exception^ e) {
+			throw e;
+		}
+		finally{
+			delete MScanner;
+		}
 	}
 	//	(not yet tested)
 	List<YSMatches^>^ YSInstance::ScanMemory(array<uint8_t>^ buffer, YSRules^ rules, Dictionary<String^, Object^>^ externalVariables, int timeout)
