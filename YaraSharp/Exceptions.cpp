@@ -12,97 +12,97 @@ namespace YaraSharp
 		case ERROR_INSUFICIENT_MEMORY:
 			throw gcnew OutOfMemoryException();
 		case ERROR_COULD_NOT_ATTACH_TO_PROCESS:
-			throw gcnew YaraAttachToProcessFailure();
+			throw gcnew YaraAttachToProcessFailureException();
 		case ERROR_COULD_NOT_OPEN_FILE:
-			throw gcnew YaraOpenFileFailure();
+			throw gcnew YaraOpenFileFailureException();
 		case ERROR_COULD_NOT_MAP_FILE:
-			throw gcnew YaraMapFileFailure();
+			throw gcnew YaraMapFileFailureException();
 		case ERROR_INVALID_FILE:
-			throw gcnew YaraInvalidFile();
+			throw gcnew YaraInvalidFileException();
 		case ERROR_CORRUPT_FILE:
-			throw gcnew YaraCorruptFile();
+			throw gcnew YaraCorruptFileException();
 		case ERROR_UNSUPPORTED_FILE_VERSION:
-			throw gcnew YaraUnsupportedFileVersion();
+			throw gcnew YaraUnsupportedFileVersionException();
 		case ERROR_INVALID_REGULAR_EXPRESSION:
-			throw gcnew YaraInvalidRegularExpression();
+			throw gcnew YaraInvalidRegularExpressionException();
 		case ERROR_INVALID_HEX_STRING:
-			throw gcnew YaraInvalidHexString();
+			throw gcnew YaraInvalidHexStringException();
 		case ERROR_SYNTAX_ERROR:
-			throw gcnew YaraSyntaxError();
+			throw gcnew YaraSyntaxErrorException();
 		case ERROR_LOOP_NESTING_LIMIT_EXCEEDED:
-			throw gcnew YaraLoopNestingLimitExceeded();
+			throw gcnew YaraLoopNestingLimitExceededException();
 		case ERROR_DUPLICATED_LOOP_IDENTIFIER:
-			throw gcnew YaraDuplicatedLoopIdentifier();
+			throw gcnew YaraDuplicatedLoopIdentifierException();
 		case ERROR_DUPLICATED_IDENTIFIER:
-			throw gcnew YaraDuplicatedIdentifier();
+			throw gcnew YaraDuplicatedIdentifierException();
 		case ERROR_DUPLICATED_TAG_IDENTIFIER:
-			throw gcnew YaraDuplicatedTagIdentifier();
+			throw gcnew YaraDuplicatedTagIdentifierException();
 		case ERROR_DUPLICATED_META_IDENTIFIER:
-			throw gcnew YaraDuplicatedMetaIdentifier();
+			throw gcnew YaraDuplicatedMetaIdentifierException();
 		case ERROR_DUPLICATED_STRING_IDENTIFIER:
-			throw gcnew YaraDuplicatedStringIdentifier();
+			throw gcnew YaraDuplicatedStringIdentifierException();
 		case ERROR_UNREFERENCED_STRING:
-			throw gcnew YaraUnreferencedString();
+			throw gcnew YaraUnreferencedStringException();
 		case ERROR_UNDEFINED_STRING:
-			throw gcnew YaraUndefinedString();
+			throw gcnew YaraUndefinedStringException();
 		case ERROR_UNDEFINED_IDENTIFIER:
-			throw gcnew YaraUndefinedIdentifier();
+			throw gcnew YaraUndefinedIdentifierException();
 		case ERROR_MISPLACED_ANONYMOUS_STRING:
-			throw gcnew YaraMisplacedAnonymousString();
+			throw gcnew YaraMisplacedAnonymousStringException();
 		case ERROR_INCLUDES_CIRCULAR_REFERENCE:
-			throw gcnew YaraCircularReference();
+			throw gcnew YaraCircularReferenceException();
 		case ERROR_INCLUDE_DEPTH_EXCEEDED:
-			throw gcnew YaraDepthExceeded();
+			throw gcnew YaraDepthExceededException();
 		case ERROR_WRONG_TYPE:
-			throw gcnew YaraWrongType();
+			throw gcnew YaraWrongTypeException();
 		case ERROR_EXEC_STACK_OVERFLOW:
-			throw gcnew YaraExecStackOverflow();
+			throw gcnew YaraExecStackOverflowException();
 		case ERROR_SCAN_TIMEOUT:
-			throw gcnew YaraScanTimeout();
+			throw gcnew YaraScanTimeoutException();
 		case ERROR_TOO_MANY_SCAN_THREADS:
-			throw gcnew YaraTooManyScanThreads();
+			throw gcnew YaraTooManyScanThreadsException();
 		case ERROR_CALLBACK_ERROR:
-			throw gcnew YaraCallbackError();
+			throw gcnew YaraCallbackErrorException();
 		case ERROR_INVALID_ARGUMENT:
-			throw gcnew YaraInvalidArgument();
+			throw gcnew YaraInvalidArgumentException();
 		case ERROR_TOO_MANY_MATCHES:
-			throw gcnew YaraTooManyMatches();
+			throw gcnew YaraTooManyMatchesException();
 		case ERROR_INTERNAL_FATAL_ERROR:
-			throw gcnew YaraInternalFatalError();
+			throw gcnew YaraInternalFatalErrorException();
 		case ERROR_NESTED_FOR_OF_LOOP:
-			throw gcnew YaraNestedForOfLoop();
+			throw gcnew YaraNestedForOfLoopException();
 		case ERROR_INVALID_FIELD_NAME:
-			throw gcnew YaraInvalidFieldName();
+			throw gcnew YaraInvalidFieldNameException();
 		case ERROR_UNKNOWN_MODULE:
-			throw gcnew YaraUnknownModule();
+			throw gcnew YaraUnknownModuleException();
 		case ERROR_NOT_A_STRUCTURE:
-			throw gcnew YaraNotAStructure();
+			throw gcnew YaraNotAStructureException();
 		case ERROR_NOT_INDEXABLE:
-			throw gcnew YaraNotIndexable();
+			throw gcnew YaraNotIndexableException();
 		case ERROR_NOT_A_FUNCTION:
-			throw gcnew YaraNotAFunction();
+			throw gcnew YaraNotAFunctionException();
 		case ERROR_INVALID_FORMAT:
-			throw gcnew YaraInvalidFormat();
+			throw gcnew YaraInvalidFormatException();
 		case ERROR_TOO_MANY_ARGUMENTS:
-			throw gcnew YaraTooManyArguments();
+			throw gcnew YaraTooManyArgumentsException();
 		case ERROR_WRONG_ARGUMENTS:
-			throw gcnew YaraWrongArguments();
+			throw gcnew YaraWrongArgumentsException();
 		case ERROR_WRONG_RETURN_TYPE:
-			throw gcnew YaraWrongReturnType();
+			throw gcnew YaraWrongReturnTypeException();
 		case ERROR_DUPLICATED_STRUCTURE_MEMBER:
-			throw gcnew YaraDuplicatedStructureMember();
+			throw gcnew YaraDuplicatedStructureMemberException();
 		case ERROR_EMPTY_STRING:
-			throw gcnew YaraEmptyString();
+			throw gcnew YaraEmptyStringException();
 		case ERROR_DIVISION_BY_ZERO:
-			throw gcnew YaraDivisionByZero();
+			throw gcnew YaraDivisionByZeroException();
 		case ERROR_REGULAR_EXPRESSION_TOO_LARGE:
-			throw gcnew YaraRegularExpressionTooLarge();
+			throw gcnew YaraRegularExpressionTooLargeException();
 		case ERROR_TOO_MANY_RE_FIBERS:
-			throw gcnew YaraTooManyReFibers();
+			throw gcnew YaraTooManyReFibersException();
 		case ERROR_COULD_NOT_READ_PROCESS_MEMORY:
-			throw gcnew YaraCouldNotReadProcessMemory();
+			throw gcnew YaraCouldNotReadProcessMemoryException();
 		case ERROR_INVALID_EXTERNAL_VARIABLE_TYPE:
-			throw gcnew YaraInvalidExternalVariableType();
+			throw gcnew YaraInvalidExternalVariableTypeException();
 		default:
 			throw gcnew Exception("An unknown exception occured");
 		}

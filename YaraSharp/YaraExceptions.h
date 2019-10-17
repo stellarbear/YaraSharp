@@ -5,324 +5,324 @@ namespace YaraSharp
 	// Code 1 is handled by OutOfMemoryException
 
 	// Code 2
-	public ref class YaraAttachToProcessFailure : public Exception
+	public ref class YaraAttachToProcessFailureException : public Exception
 	{
 	public:
-		YaraAttachToProcessFailure();
+		YaraAttachToProcessFailureException();
 	};
 
 	// Code 3
-	public ref class YaraOpenFileFailure : public Exception
+	public ref class YaraOpenFileFailureException : public Exception
 	{
 	public:
-		YaraOpenFileFailure();
+		YaraOpenFileFailureException();
 	};
 
 	// Code 4
-	public ref class YaraMapFileFailure : public Exception
+	public ref class YaraMapFileFailureException : public Exception
 	{
 	public:
-		YaraMapFileFailure();
+		YaraMapFileFailureException();
 	};
 
 	// Code 6
-	public ref class YaraInvalidFile : public Exception
+	public ref class YaraInvalidFileException : public Exception
 	{
 	public:
-		YaraInvalidFile();
+		YaraInvalidFileException();
 	};
 
 	// Code 7
-	public ref class YaraCorruptFile : public Exception
+	public ref class YaraCorruptFileException : public Exception
 	{
 	public:
-		YaraCorruptFile();
+		YaraCorruptFileException();
 	};
 
 	// Code 8
-	public ref class YaraUnsupportedFileVersion : public Exception
+	public ref class YaraUnsupportedFileVersionException : public Exception
 	{
 	public:
-		YaraUnsupportedFileVersion();
+		YaraUnsupportedFileVersionException();
 	};
 
 	// Code 9
-	public ref class YaraInvalidRegularExpression : public Exception
+	public ref class YaraInvalidRegularExpressionException : public Exception
 	{
 	public:
-		YaraInvalidRegularExpression();
+		YaraInvalidRegularExpressionException();
 	};
 
 	// Code 10
-	public ref class YaraInvalidHexString : public Exception
+	public ref class YaraInvalidHexStringException : public Exception
 	{
 	public:
-		YaraInvalidHexString();
+		YaraInvalidHexStringException();
 	};
 
 	// Code 11
-	public ref class YaraSyntaxError : public Exception
+	public ref class YaraSyntaxErrorException : public Exception
 	{
 	public:
-		YaraSyntaxError();
+		YaraSyntaxErrorException();
 	};
 
 	// Code 12
-	public ref class YaraLoopNestingLimitExceeded : public Exception
+	public ref class YaraLoopNestingLimitExceededException : public Exception
 	{
 	public:
-		YaraLoopNestingLimitExceeded();
+		YaraLoopNestingLimitExceededException();
 	};
 
 	// Code 13
-	public ref class YaraDuplicatedLoopIdentifier : public Exception
+	public ref class YaraDuplicatedLoopIdentifierException : public Exception
 	{
 	public:
-		YaraDuplicatedLoopIdentifier();
+		YaraDuplicatedLoopIdentifierException();
 	};
 
 	// Code 14
-	public ref class YaraDuplicatedIdentifier : public Exception
+	public ref class YaraDuplicatedIdentifierException : public Exception
 	{
 	public:
-		YaraDuplicatedIdentifier();
+		YaraDuplicatedIdentifierException();
 	};
 
 	// Code 15
-	public ref class YaraDuplicatedTagIdentifier : public Exception
+	public ref class YaraDuplicatedTagIdentifierException : public Exception
 	{
 	public:
-		YaraDuplicatedTagIdentifier();
+		YaraDuplicatedTagIdentifierException();
 	};
 
 	// Code 16
-	public ref class YaraDuplicatedMetaIdentifier : public Exception
+	public ref class YaraDuplicatedMetaIdentifierException : public Exception
 	{
 	public:
-		YaraDuplicatedMetaIdentifier();
+		YaraDuplicatedMetaIdentifierException();
 	};
 
 	// Code 17
-	public ref class YaraDuplicatedStringIdentifier : public Exception
+	public ref class YaraDuplicatedStringIdentifierException : public Exception
 	{
 	public:
-		YaraDuplicatedStringIdentifier();
+		YaraDuplicatedStringIdentifierException();
 	};
 
 	// Code 18
-	public ref class YaraUnreferencedString : public Exception
+	public ref class YaraUnreferencedStringException : public Exception
 	{
 	public:
-		YaraUnreferencedString();
+		YaraUnreferencedStringException();
 	};
 
 	// Code 19
-	public ref class YaraUndefinedString : public Exception
+	public ref class YaraUndefinedStringException : public Exception
 	{
 	public:
-		YaraUndefinedString();
+		YaraUndefinedStringException();
 	};
 
 	// Code 20
-	public ref class YaraUndefinedIdentifier : public Exception
+	public ref class YaraUndefinedIdentifierException : public Exception
 	{
 	public:
-		YaraUndefinedIdentifier();
+		YaraUndefinedIdentifierException();
 	};
 
 	// Code 21
-	public ref class YaraMisplacedAnonymousString : public Exception
+	public ref class YaraMisplacedAnonymousStringException : public Exception
 	{
 	public:
-		YaraMisplacedAnonymousString();
+		YaraMisplacedAnonymousStringException();
 	};
 
 	// Code 22
-	public ref class YaraCircularReference : public Exception
+	public ref class YaraCircularReferenceException : public Exception
 	{
 	public:
-		YaraCircularReference();
+		YaraCircularReferenceException();
 	};
 
 	// Code 23
-	public ref class YaraDepthExceeded : public Exception
+	public ref class YaraDepthExceededException : public Exception
 	{
 	public:
-		YaraDepthExceeded();
+		YaraDepthExceededException();
 	};
 
 	// Code 24
-	public ref class YaraWrongType : public Exception
+	public ref class YaraWrongTypeException : public Exception
 	{
 	public:
-		YaraWrongType();
+		YaraWrongTypeException();
 	};
 
 	// Code 25
-	public ref class YaraExecStackOverflow : public Exception
+	public ref class YaraExecStackOverflowException : public Exception
 	{
 	public:
-		YaraExecStackOverflow();
+		YaraExecStackOverflowException();
 	};
 
 	// Code 26
-	public ref class YaraScanTimeout : public Exception
+	public ref class YaraScanTimeoutException : public Exception
 	{
 	public:
-		YaraScanTimeout();
+		YaraScanTimeoutException();
 	};
 
 	// Code 27
-	public ref class YaraTooManyScanThreads : public Exception
+	public ref class YaraTooManyScanThreadsException : public Exception
 	{
 	public:
-		YaraTooManyScanThreads();
+		YaraTooManyScanThreadsException();
 	};
 
 	// Code 28
-	public ref class YaraCallbackError : public Exception
+	public ref class YaraCallbackErrorException : public Exception
 	{
 	public:
-		YaraCallbackError();
+		YaraCallbackErrorException();
 	};
 
 	// Code 29
-	public ref class YaraInvalidArgument : public Exception
+	public ref class YaraInvalidArgumentException : public Exception
 	{
 	public:
-		YaraInvalidArgument();
+		YaraInvalidArgumentException();
 	};
 
 	// Code 30
-	public ref class YaraTooManyMatches : public Exception
+	public ref class YaraTooManyMatchesException : public Exception
 	{
 	public:
-		YaraTooManyMatches();
+		YaraTooManyMatchesException();
 	};
 
 	// Code 31
-	public ref class YaraInternalFatalError : public Exception
+	public ref class YaraInternalFatalErrorException : public Exception
 	{
 	public:
-		YaraInternalFatalError();
+		YaraInternalFatalErrorException();
 	};
 
 	// Code 32
-	public ref class YaraNestedForOfLoop : public Exception
+	public ref class YaraNestedForOfLoopException : public Exception
 	{
 	public:
-		YaraNestedForOfLoop();
+		YaraNestedForOfLoopException();
 	};
 
 	// Code 33
-	public ref class YaraInvalidFieldName : public Exception
+	public ref class YaraInvalidFieldNameException : public Exception
 	{
 	public:
-		YaraInvalidFieldName();
+		YaraInvalidFieldNameException();
 	};
 
 	// Code 34
-	public ref class YaraUnknownModule : public Exception
+	public ref class YaraUnknownModuleException : public Exception
 	{
 	public:
-		YaraUnknownModule();
+		YaraUnknownModuleException();
 	};
 
 	// Code 35
-	public ref class YaraNotAStructure : public Exception
+	public ref class YaraNotAStructureException : public Exception
 	{
 	public:
-		YaraNotAStructure();
+		YaraNotAStructureException();
 	};
 
 	// Code 36
-	public ref class YaraNotIndexable : public Exception
+	public ref class YaraNotIndexableException : public Exception
 	{
 	public:
-		YaraNotIndexable();
+		YaraNotIndexableException();
 	};
 
 	// Code 37
-	public ref class YaraNotAFunction : public Exception
+	public ref class YaraNotAFunctionException : public Exception
 	{
 	public:
-		YaraNotAFunction();
+		YaraNotAFunctionException();
 	};
 
 	// Code 38
-	public ref class YaraInvalidFormat : public Exception
+	public ref class YaraInvalidFormatException : public Exception
 	{
 	public:
-		YaraInvalidFormat();
+		YaraInvalidFormatException();
 	};
 
 	// Code 39
-	public ref class YaraTooManyArguments : public Exception
+	public ref class YaraTooManyArgumentsException : public Exception
 	{
 	public:
-		YaraTooManyArguments();
+		YaraTooManyArgumentsException();
 	};
 
 	// Code 40
-	public ref class YaraWrongArguments : public Exception
+	public ref class YaraWrongArgumentsException : public Exception
 	{
 	public:
-		YaraWrongArguments();
+		YaraWrongArgumentsException();
 	};
 
 	// Code 41
-	public ref class YaraWrongReturnType : public Exception
+	public ref class YaraWrongReturnTypeException : public Exception
 	{
 	public:
-		YaraWrongReturnType();
+		YaraWrongReturnTypeException();
 	};
 
 	// Code 42
-	public ref class YaraDuplicatedStructureMember : public Exception
+	public ref class YaraDuplicatedStructureMemberException : public Exception
 	{
 	public:
-		YaraDuplicatedStructureMember();
+		YaraDuplicatedStructureMemberException();
 	};
 
 	// Code 43
-	public ref class YaraEmptyString : public Exception
+	public ref class YaraEmptyStringException : public Exception
 	{
 	public:
-		YaraEmptyString();
+		YaraEmptyStringException();
 	};
 
 	// Code 44
-	public ref class YaraDivisionByZero : public Exception
+	public ref class YaraDivisionByZeroException : public Exception
 	{
 	public:
-		YaraDivisionByZero();
+		YaraDivisionByZeroException();
 	};
 
 	// Code 45
-	public ref class YaraRegularExpressionTooLarge : public Exception
+	public ref class YaraRegularExpressionTooLargeException : public Exception
 	{
 	public:
-		YaraRegularExpressionTooLarge();
+		YaraRegularExpressionTooLargeException();
 	};
 
 	// Code 46
-	public ref class YaraTooManyReFibers : public Exception
+	public ref class YaraTooManyReFibersException : public Exception
 	{
 	public:
-		YaraTooManyReFibers();
+		YaraTooManyReFibersException();
 	};
 
 	// Code 47
-	public ref class YaraCouldNotReadProcessMemory : public Exception
+	public ref class YaraCouldNotReadProcessMemoryException : public Exception
 	{
 	public:
-		YaraCouldNotReadProcessMemory();
+		YaraCouldNotReadProcessMemoryException();
 	};
 
 	// Code 48
-	public ref class YaraInvalidExternalVariableType : public Exception
+	public ref class YaraInvalidExternalVariableTypeException : public Exception
 	{
 	public:
-		YaraInvalidExternalVariableType();
+		YaraInvalidExternalVariableTypeException();
 	};
 }
