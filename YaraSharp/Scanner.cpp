@@ -41,10 +41,25 @@ namespace YaraSharp
 			(marshal_as<std::wstring>(Path)).c_str()));
 		return matches;
 	}
+
 	List<YSMatches^>^ YSScanner::ScanMemory(uint8_t* Buffer, int Length)
 	{
 		YSException::ThrowOnError(yr_scanner_scan_mem(scanner, Buffer, Length));
 		return matches;
+	}
+
+	List<YSMatches^>^ YSScanner::ScanMemory(array<uint8_t>^ buffer)
+	{
+		if (buffer == nullptr || buffer->Length == 0)
+		{
+			return gcnew List<YSMatches^>();
+		}
+		else
+		{
+			pin_ptr<uint8_t> bufferPointer = &buffer[0];
+			YSException::ThrowOnError(yr_scanner_scan_mem(scanner, bufferPointer, buffer->Length));
+			return matches;
+		}
 	}
 
 	//	Set externals
@@ -72,7 +87,7 @@ namespace YaraSharp
 					throw gcnew NotSupportedException(String::Format("Unsupported external variable: '{0}'", VariableType->Name));
 
 				if (ExternalError != ERROR_SUCCESS)
-					YSException::ThrowOnError("(Scanner) Error during external variable intialization");
+					YSException::ThrowOnError("(Scanner) Error during external variable initialization");
 			}
 		}
 	}
